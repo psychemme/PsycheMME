@@ -1,0 +1,25 @@
+name: CPU checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  first-run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install .
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: python scripts/sync_resources.py --check
+      - run: psychemme doctor
+      - run: psychemme demo --output runs/ci-demo
+      - run: python -m unittest discover -s code/tests -v

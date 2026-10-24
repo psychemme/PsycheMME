@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Parsed nine-field prediction",
+  "type": "object",
+  "required": [
+    "answer",
+    "G",
+    "W",
+    "N",
+    "T",
+    "S",
+    "A",
+    "R",
+    "M"
+  ],
+  "properties": {
+    "answer": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]$"
+          }
+        }
+      ]
+    },
+    "G": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "W": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "N": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "T": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "S": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "A": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "R": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "M": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

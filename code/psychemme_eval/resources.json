@@ -1,0 +1,40 @@
+{
+  "version": "v1.0-paper.1",
+  "resources": {
+    "benchmark": {
+      "repo": "psychemme/PsycheMME",
+      "type": "dataset",
+      "revision": "v1.0-paper.1",
+      "status": "published",
+      "directory": "PsycheMME"
+    },
+    "logs": {
+      "repo": "psychemme/PsycheMME-logs",
+      "type": "dataset",
+      "revision": "v1.0-paper.1",
+      "status": "published",
+      "directory": "PsycheMME-logs"
+    },
+    "training": {
+      "repo": "psychemme/PsycheMME-Training",
+      "type": "dataset",
+      "revision": null,
+      "status": "planned",
+      "directory": "PsycheMME-Training"
+    },
+    "sft": {
+      "repo": "psychemme/PsycheMME-Qwen3.5-4B-SFT",
+      "type": "model",
+      "revision": "v1.0-paper.1",
+      "status": "published",
+      "directory": "PsycheMME-Qwen3.5-4B-SFT"
+    },
+    "grpo": {
+      "repo": "psychemme/PsycheMME-Qwen3.5-4B-GRPO",
+      "type": "model",
+      "revision": "v1.0-paper.1",
+      "status": "published",
+      "directory": "PsycheMME-Qwen3.5-4B-GRPO"
+    }
+  }
+}

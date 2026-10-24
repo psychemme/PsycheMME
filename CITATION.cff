@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "Please cite the PsycheMME paper when using this project."
+type: software
+title: "PsycheMME: A Psychology-Informed Benchmark for Social Understanding and Interaction in Videos"
+authors:
+  - family-names: "Hu"
+    given-names: "Heran"
+  - family-names: "Dong"
+    given-names: "Yuhang"
+  - family-names: "Xue"
+    given-names: "Zhucun"
+  - family-names: "Chen"
+    given-names: "Kaiwei"
+  - family-names: "Liu"
+    given-names: "Yong"
+  - family-names: "Zhang"
+    given-names: "Jiangning"
+version: "1.0.1"
+date-released: "2026-10-24"
+url: "https://psychemme.github.io/"
+repository-code: "https://github.com/psychemme/PsycheMME"
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: "PsycheMME: A Psychology-Informed Benchmark for Social Understanding and Interaction in Videos"
+  authors:
+    - family-names: "Hu"
+      given-names: "Heran"
+    - family-names: "Dong"
+      given-names: "Yuhang"
+    - family-names: "Xue"
+      given-names: "Zhucun"
+    - family-names: "Chen"
+      given-names: "Kaiwei"
+    - family-names: "Liu"
+      given-names: "Yong"
+    - family-names: "Zhang"
+      given-names: "Jiangning"
+  year: 2026
+  journal: "arXiv"
+  url: "https://arxiv.org/abs/2610.28625"

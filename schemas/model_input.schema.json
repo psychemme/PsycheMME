@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PsycheMME released public input",
+  "type": "object",
+  "required": [
+    "question_id",
+    "episode_id",
+    "media_id",
+    "category",
+    "task_type",
+    "question",
+    "options",
+    "source_dataset",
+    "memory_context",
+    "memory_dependency"
+  ],
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "media_id": {
+      "type": "string",
+      "pattern": "^video/[0-9a-f]{16}\\.mp4$"
+    },
+    "category": {
+      "enum": [
+        "G",
+        "W",
+        "N",
+        "T",
+        "S",
+        "A",
+        "M",
+        "R"
+      ]
+    },
+    "task_type": {
+      "enum": [
+        "single_choice",
+        "multiple_select",
+        "open"
+      ]
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 26
+    },
+    "source_dataset": {
+      "type": "string",
+      "minLength": 1
+    },
+    "memory_context": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "memory_dependency": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

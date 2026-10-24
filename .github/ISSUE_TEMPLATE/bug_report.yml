@@ -1,0 +1,17 @@
+name: Usage or reproducibility problem
+description: Report an installation, evaluation or score-replay problem.
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions and environment
+      description: Code commit, Python, OS, data revision and doctor output. Remove personal paths and credentials.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal command and observed output
+      description: Include expected behavior, the exact sanitized command and error. Do not post API keys, signed URLs or restricted data.
+    validations:
+      required: true

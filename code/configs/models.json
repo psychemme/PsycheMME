@@ -1,0 +1,1416 @@
+{
+  "scope": "17 frozen models and 2 adapted models; observed archived per-run metadata",
+  "models": [
+    {
+      "model": "Gemini 3.6 Flash",
+      "model_ids": {
+        "gemini-3.6-flash": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "native_video_audio": 1000
+      },
+      "frame_count_distribution": {
+        "0": 1000
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 999,
+        "UNPARSEABLE": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61
+      },
+      "prediction_file_sha256": "b84f455e7c50c990f37902f922a8693f30f23601312afef28c71934ff0b3e1a9",
+      "judgment_file_sha256": "a2031ed72143659dbeae34aece9a38049da265a11802b829340f602905b0c616",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 918,
+        "replaced_rows": 82,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "bc189486318e2de8742c6fd8a0edc64451eaa011eb8fee6533926b9af833e0c6"
+    },
+    {
+      "model": "Claude Opus 5",
+      "model_ids": {
+        "claude-opus-5": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "frames_1fps_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 213,
+        "6": 5,
+        "60": 5,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 999,
+        "UNPARSEABLE": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61
+      },
+      "prediction_file_sha256": "761b16d2864f1a8af13fae263ba3c5b49d46e0ef2a98160b1373bfe52a30ef8d",
+      "judgment_file_sha256": "7ec8b37fd75e950350b2ceea961f92f64615774fd53504fda6bdc7a63714327d",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 948,
+        "replaced_rows": 52,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "11cf6d82022d63fd1e9d0323a2af4beaff92b4637f304165686cc0d9894866c0"
+    },
+    {
+      "model": "Kimi K3",
+      "model_ids": {
+        "kimi-k3": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "native_video_asr": 918,
+        "frames_1fps_asr": 82
+      },
+      "frame_count_distribution": {
+        "0": 918,
+        "10": 18,
+        "20": 30,
+        "30": 5,
+        "36": 2,
+        "37": 2,
+        "38": 1,
+        "40": 4,
+        "48": 1,
+        "50": 19
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 998,
+        "UNPARSEABLE": 2
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61
+      },
+      "prediction_file_sha256": "36efda46cb5d0b1f87638811158a60c5730c3c46b7f9223cff2794c5e3c00c53",
+      "judgment_file_sha256": "5a30cac9823fd98a94d15a76405d9dbcb583dec6c337a1a03bd533ee5c29a3af",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 918,
+        "replaced_rows": 82,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "4838ca1e2de61f00744f2463c011a2b1e55d70d05a16c2b1696fbf9f619c0278"
+    },
+    {
+      "model": "GPT-5.6 Sol",
+      "model_ids": {
+        "gpt-5.6-sol": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "frames_1fps_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 218,
+        "6": 5,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 999,
+        "UNPARSEABLE": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61
+      },
+      "prediction_file_sha256": "59fcce7992af4e85e751cf7177a2c43e688b53802d42ad3686f7af59d0addad7",
+      "judgment_file_sha256": "31ca3ac22ae07d48b289261bc0dcef1ad3e52362fa7c28aa4d7c5f95eca0e456",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 918,
+        "replaced_rows": 82,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "1b2539a68280b0d3c74fbc2dc090759d6b82fcaf9d7814b2ba40a3c164cf00fd"
+    },
+    {
+      "model": "Qwen3.8-Max",
+      "model_ids": {
+        "qwen3.8-max": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "native_video_asr": 1000
+      },
+      "frame_count_distribution": {
+        "0": 1000
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 997,
+        "UNPARSEABLE": 3
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61
+      },
+      "prediction_file_sha256": "ca0e6325f5cf706e4ec8385e70181932ad0c24dc07b5bd1a30390f6230fa144e",
+      "judgment_file_sha256": "20423c069bab4e7424db0e1e767e124ab6f52adb36d89d64d6f346c12175123f",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 918,
+        "replaced_rows": 82,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "4bee1ac50ceb3ef43b79831fc119d6c5d97a35f81b9691dac93ef433209102ed"
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "model_ids": {
+        "gemini-3.1-pro-preview": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "native_video_audio": 1000
+      },
+      "frame_count_distribution": {
+        "0": 1000
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 997,
+        "UNPARSEABLE": 3
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61
+      },
+      "prediction_file_sha256": "c1b7beffa3a459cc7c165ffae8d3773d100a01783b29b2a6d118ff4793e8af4b",
+      "judgment_file_sha256": "bc89362111e1ace48722843b4bf1d960694d0797ef77bb03f7c3d8ebaa2ae35a",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 918,
+        "replaced_rows": 82,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "f0a6f13b0d588983470feacec92860562646fd62e8c6881b7e1316807ece72f4"
+    },
+    {
+      "model": "GLM-5V-Turbo",
+      "model_ids": {
+        "glm-5v-turbo": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "native_video_asr": 1000
+      },
+      "frame_count_distribution": {
+        "0": 1000
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 997,
+        "ERROR": 2,
+        "UNPARSEABLE": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 999,
+        "UNRECORDED": 1
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 938,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61,
+        "UNRECORDED": 1
+      },
+      "prediction_file_sha256": "0094850a9bd4de29350cda336ece2b39345a197b036b14852b711ee99946ea53",
+      "judgment_file_sha256": "9f5e3afd94dd1d6d64eaa0fa837d56206aaf7d0995c233052698d45fbdc18456",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 918,
+        "replaced_rows": 82,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "6b8344a9f137935a03451df63a4ae8d826e458a82f7ab7968a32e35365c497de"
+    },
+    {
+      "model": "Seed 2.1 Pro",
+      "model_ids": {
+        "doubao-seed-2-1-pro-260628": 1000
+      },
+      "group": "proprietary",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-inference-v1": 1000
+      },
+      "input_mode_counts": {
+        "native_video_asr": 1000
+      },
+      "frame_count_distribution": {
+        "0": 1000
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 999,
+        "UNPARSEABLE": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-provider-unknown-20261012-v1": 61
+      },
+      "prediction_file_sha256": "992b5ae6638b5d742ca5f7bef56d2e02c0ae659e047d6b5306f16530e7e7b81e",
+      "judgment_file_sha256": "89bfc348dcde5495d609ed4f5dca19bc5903fb53834f4ae98f6e61fe29586bae",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261012-integrated-closed82-v1",
+        "historical_reused": 918,
+        "replaced_rows": 82,
+        "provider_provenance_complete": false,
+        "provider_input_equivalence_asserted": false,
+        "historical_public_media_equivalence_asserted": false
+      },
+      "original_config_sha256": "cad21b377feb18cc361125a293b766059b54e30b1e8cbdce827732c2698d6053"
+    },
+    {
+      "model": "Qwen3.8-27B",
+      "model_ids": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1": 948,
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 997,
+        "ERROR": 1,
+        "UNPARSEABLE": 2
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 61
+      },
+      "prediction_file_sha256": "a23cdd3559d22f13113488fa099c0fce07bb527ba9b1f313ccdcf8efdf2987c0",
+      "judgment_file_sha256": "62c82101eb4fd3a0df91072908eae567025ae0614add3348c36229dad6f41cd4",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "84fe4d1ecfa4d816ee138818e982b57218753e70786426d6cf2896197a43e618"
+    },
+    {
+      "model": "Qwen3.5-9B",
+      "model_ids": {
+        "Qwen/Qwen3.5-9B": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1": 948,
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 999,
+        "ERROR": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 999,
+        "UNRECORDED": 1
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 938,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 61,
+        "UNRECORDED": 1
+      },
+      "prediction_file_sha256": "68644ade549ca11275bf24e4acf146ebe73ac74485765151d963e73af5cc468e",
+      "judgment_file_sha256": "8a350741898159c3314f714ae55699ee2733d42e67fcadd350f14755cdadc225",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "f682c2ce28df62046fbf075aa66276f8c3920936ba078e5cead760c4dd4a52fc"
+    },
+    {
+      "model": "InternVL3.5-14B",
+      "model_ids": {
+        "OpenGVLab/InternVL3_5-14B": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1": 948,
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 769,
+        "UNPARSEABLE": 231
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 954,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 46
+      },
+      "prediction_file_sha256": "b7ae1a90799a4f8f504b5439a529fd41b777fdbfaac3e0b34b72f957f9e59fc8",
+      "judgment_file_sha256": "aa5863969f2fa0d09d6d323c57d83f774054bb00c44dd55b0b2a0b5e0bfb0f30",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "ab8537f23b65d2056b1b0a139ed32d8ea99fb851268d8ca20c6245533606392e"
+    },
+    {
+      "model": "Gemma-4-12B-it",
+      "model_ids": {
+        "google/gemma-4-12B-it": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1": 948,
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 937,
+        "UNPARSEABLE": 63
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 999,
+        "UNRECORDED": 1
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 942,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 57,
+        "UNRECORDED": 1
+      },
+      "prediction_file_sha256": "0f84fe3405d6e9795b6925677155b6ecf06613a45edb7b7a7ae020e14c11d085",
+      "judgment_file_sha256": "3b0f375c883c8c233d9404cdc8d19521fc777b9e6ac42151b1a2e1f270d7739c",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "ea95450d181c81a42412fc1e0f149cf1dc08442f62008b97b46c5b558d346239"
+    },
+    {
+      "model": "InternVL3.5-8B",
+      "model_ids": {
+        "OpenGVLab/InternVL3_5-8B": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1": 948,
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 936,
+        "UNPARSEABLE": 64
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 939,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 61
+      },
+      "prediction_file_sha256": "2d2f77c96c2dff19871e6e0627d0adce389f775c1fc79d6b3981141c133e36c4",
+      "judgment_file_sha256": "d024e5efd4f5c4eb859ed7841e79d8a1b5a2b9cc04edf036d1e56d939b30d490",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "cffdd4ac0c08205eb231a5cc85b746e01eda4bc6f128d65fc0ab5a171a18a0f2"
+    },
+    {
+      "model": "Phi-4-multimodal",
+      "model_ids": {
+        "microsoft/Phi-4-multimodal-instruct": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1": 948,
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 952,
+        "UNPARSEABLE": 48
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 943,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 57
+      },
+      "prediction_file_sha256": "18526faf39677a906d84b710e40c743e32fb8c5c8868b7e35fd924d2b681fa11",
+      "judgment_file_sha256": "1af40aef4de0b9fd5e9d82a9690ccae25c2761f95672e5d990fc9ebc36245bc5",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "6ae5607e70cc47315cfa6d25ab92e8343a96fdb14ec0d2eb56015d15ff00d550"
+    },
+    {
+      "model": "InternVL3.5-4B",
+      "model_ids": {
+        "OpenGVLab/InternVL3_5-4B": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1": 948,
+        "psychebench-final-1000-nine-field-1fps-max64-20260927-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 941,
+        "UNPARSEABLE": 59
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 949,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 51
+      },
+      "prediction_file_sha256": "3590a3af782cffe45772ec81ce01c9dfd5ff9ce6d2f1cb9ae0e5f343433f6180",
+      "judgment_file_sha256": "048540316e22d43848fbc776d6399c43b4c2d8c7215e2c4fd2bcc9627b6d53ab",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "5c318a9cfa5a30f72389cecedf2364aaa18e15288c66db02651f75990c9da0be"
+    },
+    {
+      "model": "MiniCPM-V4.5",
+      "model_ids": {
+        "openbmb/MiniCPM-V-4_5": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "psychebench-science24h-structured-1fps-max64-v1": 948,
+        "psychebench-science24h-structured-1fps-max64-v1-core52-single-original-multi-v2-20261011-v1": 52
+      },
+      "input_mode_counts": {
+        "frames_1fps_max64_asr": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "False": 1000
+      },
+      "inference_status_counts": {
+        "OK": 978,
+        "UNPARSEABLE": 22
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 940,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 60
+      },
+      "prediction_file_sha256": "9b83d32fdd0d2fcb7b1589f0f645220d99fbb137805f24c8e69eb8d65b5cc08a",
+      "judgment_file_sha256": "f179762c823204adb4eac323825699a8f3cbb6aa456d6b1098316f23ffb86251",
+      "historical_input_equivalence_asserted": false,
+      "configuration_status": "ARCHIVED_METADATA_PARTIAL; exact settings must not be inferred from model name or protocol ID",
+      "model_revision": null,
+      "archived_provenance_flags": {
+        "version": "results-20261011-merged52-v1",
+        "historical_public_media_equivalence_asserted": false,
+        "outside52_historical_reuse_user_authorized": true
+      },
+      "historical_reused": 948,
+      "original_config_sha256": "e8ae48960b77423d6e0bec4fe875357e18cd632c3401c1685d347d1eb1750e00"
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "model_ids": {
+        "Base": 1000
+      },
+      "group": "open",
+      "questions": 1000,
+      "protocol_counts": {
+        "FINAL1000_REVISED_1FPS_MAX64_MATCHED_HF_BF16": 1000
+      },
+      "input_mode_counts": {
+        "UNRECORDED": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "OK": 641,
+        "UNPARSEABLE": 358,
+        "ERROR": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 967,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 33
+      },
+      "prediction_file_sha256": "e20cada35db1735334e016a02dee85b4edc5fda815e2b3d751bd74b41a920dc0",
+      "judgment_file_sha256": "4df4d17768cfbfd01e2d97fef09d9214e51fd855e2e29fe7b76e5d598bb3c316",
+      "historical_input_equivalence_asserted": null,
+      "configuration_status": "MATCHED_BASE_SFT_GRPO_SCIENTIFIC_SETTINGS_RECORDED; historical custom offload not bundled",
+      "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "documented_scientific_settings": {
+        "release": "psychebench-final1000-timing-human-revision-20261011-v1",
+        "prompt_revision": "psychebench-choice-type-explicit-20261011-v2",
+        "sampling": "official ffmpeg fps=1 across full timeline, uniform cap64, all if <=64",
+        "max_frames": 64,
+        "image_resize": "none before original frozen processor",
+        "temperature": 0,
+        "do_sample": false,
+        "max_new_tokens": 768,
+        "seed": 42,
+        "dtype": "bf16",
+        "thinking": false,
+        "format_guidance": false,
+        "batch_size": 1,
+        "prompt": "frozen revised enterprise prompt + original ASR + supplied public memory only",
+        "fields": [
+          "answer",
+          "G",
+          "W",
+          "N",
+          "T",
+          "S",
+          "A",
+          "R",
+          "M"
+        ],
+        "backend": "matched HF SDPA audited lossless offload, all three models",
+        "parser": "frozen revised enterprise_parse",
+        "judge": "canonical frozen Qwen3.8-27B v3 explicit-only text evidence protocol",
+        "failure_policy": "all1000 fixed denominator; inference/format/Judge failures zero",
+        "no_training": true,
+        "no_checkpoint_selection": true
+      },
+      "packages": {
+        "torch": "2.11.0+cu130",
+        "transformers": "5.15.1",
+        "peft": "0.19.1",
+        "qwen-vl-utils": "0.0.14"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B (SFT)",
+      "model_ids": {
+        "Conservative-SFT": 1000
+      },
+      "group": "adapted",
+      "questions": 1000,
+      "protocol_counts": {
+        "FINAL1000_REVISED_1FPS_MAX64_MATCHED_HF_BF16": 1000
+      },
+      "input_mode_counts": {
+        "UNRECORDED": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "UNPARSEABLE": 31,
+        "OK": 968,
+        "ERROR": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 940,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 60
+      },
+      "prediction_file_sha256": "32c6b343d345d6a0da0ce6f423ca400c1c823592e06eb27c8de1cd96f3b37df1",
+      "judgment_file_sha256": "1b9b14e47f9d60b3d8dd68cac634a65db6bff0728117732702a5a4134b7fb5be",
+      "historical_input_equivalence_asserted": null,
+      "configuration_status": "MATCHED_BASE_SFT_GRPO_SCIENTIFIC_SETTINGS_RECORDED; historical custom offload not bundled",
+      "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "documented_scientific_settings": {
+        "release": "psychebench-final1000-timing-human-revision-20261011-v1",
+        "prompt_revision": "psychebench-choice-type-explicit-20261011-v2",
+        "sampling": "official ffmpeg fps=1 across full timeline, uniform cap64, all if <=64",
+        "max_frames": 64,
+        "image_resize": "none before original frozen processor",
+        "temperature": 0,
+        "do_sample": false,
+        "max_new_tokens": 768,
+        "seed": 42,
+        "dtype": "bf16",
+        "thinking": false,
+        "format_guidance": false,
+        "batch_size": 1,
+        "prompt": "frozen revised enterprise prompt + original ASR + supplied public memory only",
+        "fields": [
+          "answer",
+          "G",
+          "W",
+          "N",
+          "T",
+          "S",
+          "A",
+          "R",
+          "M"
+        ],
+        "backend": "matched HF SDPA audited lossless offload, all three models",
+        "parser": "frozen revised enterprise_parse",
+        "judge": "canonical frozen Qwen3.8-27B v3 explicit-only text evidence protocol",
+        "failure_policy": "all1000 fixed denominator; inference/format/Judge failures zero",
+        "no_training": true,
+        "no_checkpoint_selection": true
+      },
+      "packages": {
+        "torch": "2.11.0+cu130",
+        "transformers": "5.15.1",
+        "peft": "0.19.1",
+        "qwen-vl-utils": "0.0.14"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B (SFT+GRPO)",
+      "model_ids": {
+        "GRPO-Step32": 1000
+      },
+      "group": "adapted",
+      "questions": 1000,
+      "protocol_counts": {
+        "FINAL1000_REVISED_1FPS_MAX64_MATCHED_HF_BF16": 1000
+      },
+      "input_mode_counts": {
+        "UNRECORDED": 1000
+      },
+      "frame_count_distribution": {
+        "10": 114,
+        "11": 1,
+        "12": 1,
+        "14": 1,
+        "16": 1,
+        "20": 402,
+        "21": 1,
+        "23": 1,
+        "24": 3,
+        "25": 2,
+        "27": 1,
+        "28": 1,
+        "30": 98,
+        "31": 1,
+        "36": 27,
+        "37": 7,
+        "38": 1,
+        "39": 1,
+        "40": 69,
+        "41": 2,
+        "42": 1,
+        "43": 5,
+        "46": 1,
+        "48": 29,
+        "49": 3,
+        "50": 34,
+        "51": 5,
+        "55": 3,
+        "58": 4,
+        "59": 5,
+        "6": 5,
+        "60": 126,
+        "61": 5,
+        "63": 4,
+        "64": 32,
+        "7": 2,
+        "9": 1
+      },
+      "native_audio_counts": {
+        "UNRECORDED": 1000
+      },
+      "inference_status_counts": {
+        "UNPARSEABLE": 27,
+        "OK": 972,
+        "ERROR": 1
+      },
+      "judge_model_counts": {
+        "Qwen/Qwen3.8-27B": 1000
+      },
+      "judge_version_counts": {
+        "psychebench-reasoning-text-judge-v3-explicit-only": 940,
+        "psychebench-reasoning-judge-memory-context-20261012-v1": 60
+      },
+      "prediction_file_sha256": "b385544ffce092c1a196391d08614f6eefc78a795fd0f04a8464ee0fb4d202f8",
+      "judgment_file_sha256": "ba8204e41e9ef535e5e2378bb3315a1c49bf268c600e0250a76ec15e489070ec",
+      "historical_input_equivalence_asserted": null,
+      "configuration_status": "MATCHED_BASE_SFT_GRPO_SCIENTIFIC_SETTINGS_RECORDED; historical custom offload not bundled",
+      "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "documented_scientific_settings": {
+        "release": "psychebench-final1000-timing-human-revision-20261011-v1",
+        "prompt_revision": "psychebench-choice-type-explicit-20261011-v2",
+        "sampling": "official ffmpeg fps=1 across full timeline, uniform cap64, all if <=64",
+        "max_frames": 64,
+        "image_resize": "none before original frozen processor",
+        "temperature": 0,
+        "do_sample": false,
+        "max_new_tokens": 768,
+        "seed": 42,
+        "dtype": "bf16",
+        "thinking": false,
+        "format_guidance": false,
+        "batch_size": 1,
+        "prompt": "frozen revised enterprise prompt + original ASR + supplied public memory only",
+        "fields": [
+          "answer",
+          "G",
+          "W",
+          "N",
+          "T",
+          "S",
+          "A",
+          "R",
+          "M"
+        ],
+        "backend": "matched HF SDPA audited lossless offload, all three models",
+        "parser": "frozen revised enterprise_parse",
+        "judge": "canonical frozen Qwen3.8-27B v3 explicit-only text evidence protocol",
+        "failure_policy": "all1000 fixed denominator; inference/format/Judge failures zero",
+        "no_training": true,
+        "no_checkpoint_selection": true
+      },
+      "packages": {
+        "torch": "2.11.0+cu130",
+        "transformers": "5.15.1",
+        "peft": "0.19.1",
+        "qwen-vl-utils": "0.0.14"
+      }
+    }
+  ]
+}

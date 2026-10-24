@@ -1,0 +1,43 @@
+{
+  "scope": "Final matched Base/SFT/GRPO prompt/parser only; historical models may use older variants",
+  "functions": [
+    {
+      "source_file": "psychebench_nine_field_inference.py",
+      "function": "transcript",
+      "source_file_sha256": "460da1e7d0a0513c6d6bd961bd5959230f218aeb39af2d180b79474d8f26be8f",
+      "function_source_sha256": "7b454260eb3706a3b6cbb9dc0cf51c39a840366b2a48f2d59b263bdf0bb5a809",
+      "function_body_modified": false
+    },
+    {
+      "source_file": "psychebench_nine_field_inference.py",
+      "function": "prompt",
+      "source_file_sha256": "460da1e7d0a0513c6d6bd961bd5959230f218aeb39af2d180b79474d8f26be8f",
+      "function_source_sha256": "8db1040049b3fb3ba82755e79cacff26d2600dc4f0424766bf9fa3d58b94016a",
+      "function_body_modified": false
+    },
+    {
+      "source_file": "psychebench_nine_field_inference.py",
+      "function": "parse",
+      "source_file_sha256": "460da1e7d0a0513c6d6bd961bd5959230f218aeb39af2d180b79474d8f26be8f",
+      "function_source_sha256": "4b6728d69a1745dbef371f0896c0d36c777703b08b1f8cb5ce84e5da4650fc24",
+      "function_body_modified": false
+    },
+    {
+      "source_file": "psychebench_multi_api_inference.py",
+      "function": "enterprise_prompt",
+      "source_file_sha256": "5bca4be03af46095d1fd4ce8ec43dc3da9d18c8eec4c7077e9bd0504c0732f35",
+      "function_source_sha256": "f68bb6bb7e3bf3c24b7923e0e8076a0106e4390f2d42280a8e34ddf343d167bd",
+      "function_body_modified": false
+    },
+    {
+      "source_file": "psychebench_multi_api_inference.py",
+      "function": "enterprise_parse",
+      "source_file_sha256": "5bca4be03af46095d1fd4ce8ec43dc3da9d18c8eec4c7077e9bd0504c0732f35",
+      "function_source_sha256": "c8987fdd19a12391932a7af124b5f48c5464cc75bded0f45470713d91d67f80e",
+      "function_body_modified": false
+    }
+  ],
+  "judge_packaging_changes": [
+    "JSONL reader now closes file handles; system prompts, memory rules and rubric unchanged"
+  ]
+}

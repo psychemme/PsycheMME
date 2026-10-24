@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "psychemme-eval"
+version = "1.0.1"
+description = "PsycheMME public evaluation and frozen-score replay tools"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.optional-dependencies]
+data = ["huggingface-hub==1.33.0"]
+local-model = ["torch==2.11.0", "transformers==5.15.1", "peft==0.19.1", "qwen-vl-utils==0.0.14", "accelerate", "Pillow"]
+
+[project.scripts]
+psychemme = "psychemme_eval.cli:main"
+
+[project.urls]
+Repository = "https://github.com/psychemme/PsycheMME"
+Dataset = "https://huggingface.co/datasets/psychemme/PsycheMME"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["psychemme_eval*"]
+
+[tool.setuptools.package-data]
+psychemme_eval = ["*.json"]

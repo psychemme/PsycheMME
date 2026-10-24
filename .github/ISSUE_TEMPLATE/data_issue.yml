@@ -1,0 +1,16 @@
+name: Data or annotation question
+description: Report a suspected issue without silently changing frozen references.
+body:
+  - type: input
+    id: ids
+    attributes:
+      label: Question IDs and data revision
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Observation and supporting evidence
+      description: Describe the mismatch and source/time coordinates. Use public IDs and authorized links; do not upload restricted media or unreleased text. Review signals alone do not establish an error.
+    validations:
+      required: true

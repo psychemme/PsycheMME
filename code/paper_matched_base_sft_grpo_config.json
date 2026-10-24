@@ -1,0 +1,100 @@
+{
+  "protocol": {
+    "release": "psychebench-final1000-timing-human-revision-20261011-v1",
+    "prompt_revision": "psychebench-choice-type-explicit-20261011-v2",
+    "sampling": "official ffmpeg fps=1 across full timeline, uniform cap64, all if <=64",
+    "max_frames": 64,
+    "image_resize": "none before original frozen processor",
+    "temperature": 0,
+    "do_sample": false,
+    "max_new_tokens": 768,
+    "seed": 42,
+    "dtype": "bf16",
+    "thinking": false,
+    "format_guidance": false,
+    "batch_size": 1,
+    "prompt": "frozen revised enterprise prompt + original ASR + supplied public memory only",
+    "fields": [
+      "answer",
+      "G",
+      "W",
+      "N",
+      "T",
+      "S",
+      "A",
+      "R",
+      "M"
+    ],
+    "backend": "matched HF SDPA audited lossless offload, all three models",
+    "parser": "frozen revised enterprise_parse",
+    "judge": "canonical frozen Qwen3.8-27B v3 explicit-only text evidence protocol",
+    "failure_policy": "all1000 fixed denominator; inference/format/Judge failures zero",
+    "no_training": true,
+    "no_checkpoint_selection": true
+  },
+  "models": [
+    {
+      "model_id": "Conservative-SFT",
+      "adapter_sha256": "53e7ab1346a70e96d6e9d8e56c06f765b5acea69ea179542fb30faa9817f9d5a",
+      "repository": "psychemme/PsycheMME-Qwen3.5-4B-SFT"
+    },
+    {
+      "model_id": "GRPO-Step32",
+      "adapter_sha256": "d6823e39d4878380aa7f1b3f81a20dd0d9b6270b4aa64c3e0c0841e0f0388199",
+      "repository": "psychemme/PsycheMME-Qwen3.5-4B-GRPO"
+    },
+    {
+      "model_id": "Base",
+      "adapter_sha256": null,
+      "repository": null
+    }
+  ],
+  "packages": {
+    "torch": "2.11.0+cu130",
+    "transformers": "5.15.1",
+    "peft": "0.19.1",
+    "qwen-vl-utils": "0.0.14"
+  },
+  "judge": {
+    "model": "Qwen/Qwen3.8-27B",
+    "bounded_passes": 3,
+    "request_retries": 2,
+    "concurrency": 4,
+    "timeout": 300
+  },
+  "input_hashes": {
+    "input_sha256": "606e9d9b7f13f1c974422ace47c8a3c25480ac7b27a01da65154b2e994a37256",
+    "public_sha256": "dd9197d44fdd01a38437f33ec341cb6f74f031e7f5658ebe1613fc7706297f6a",
+    "asr_sha256": "f619547b7246ad2f6aa53ebe77064540595488035ee8ec9225260d97d400da12",
+    "gold_sha256": "b38b227e6bb823085d513e51ad026fcc788f92ef539ae220da6ff8a04dea531d",
+    "media_manifest_sha256": "83a618dca8dc4df299c4be0edc478c2aabb139426b30eefe73f277cbdd527a0c"
+  },
+  "frozen_inputs": true,
+  "Base_no_adapter": true,
+  "SFT_updates": 458,
+  "GRPO_updates": 32,
+  "GRPO_training_reward": "pure R0=A*F; no Soft/Evidence supervision",
+  "publication_scope": "completed fixed-model evaluation; no new training or model selection",
+  "memory_verification_update": {
+    "version": "psychebench-reasoning-judge-memory-context-20261012-v1",
+    "completed_at": "2026-10-12T12:52:02.038139+00:00",
+    "total_M_records": 183,
+    "new_Judge_calls": 153,
+    "original_invalid_fixed_zero": 30,
+    "reference_history_M_questions": 40,
+    "no_reference_history_M_questions": 21,
+    "model_predictions_unchanged": true,
+    "non_M_judgments_and_scores_byte_identical": true,
+    "original_scoring_weights_unchanged": true,
+    "original_scientific_lock_sha256": "eecf201b870f0309c02c75de9d14811895c79545779754e3fcc20ff14ed45414",
+    "old_result_sha256": "0c0648bd72fa3a25f8eeb98387ce439f8584fdabac211d4a1296a6bf174f176e",
+    "request_response_audit_sha256": "029b28b7f11dd044271fbb53c3a1a1750c7ecc5a145068d8d01eb1c4f5ca0739",
+    "TP_size": 1,
+    "judge_revision": "10f430f947356fc718e3605b893c39460f16261451e11116fb16629ea12d30a5",
+    "batch_concurrency_per_GPU": 4,
+    "full_output_equivalence_to_historical_A_TP4_not_claimed": true,
+    "paired_bootstrap_draws": 10000,
+    "paired_bootstrap_seed": 42,
+    "first_success_retained_within_each_verification_epoch": true
+  }
+}

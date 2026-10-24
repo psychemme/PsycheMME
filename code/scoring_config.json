@@ -1,0 +1,27 @@
+{
+  "coverage_multiplier": {
+    "present": 1.0,
+    "missing": 0.0
+  },
+  "support_multiplier": {
+    "strong": 1.2,
+    "normal": 1.0,
+    "weak": 0.8,
+    "contradicted": 0.5,
+    "insufficient": 0.0
+  },
+  "logic_multiplier": {
+    "fully_coherent": 1.2,
+    "acceptable": 1.0,
+    "weak": 0.8,
+    "contradictory": 0.5,
+    "unevaluable": 0.0
+  },
+  "normalization": {
+    "enabled": true,
+    "max_multiplier": 1.44,
+    "report_raw_and_normalized": true
+  },
+  "primary_metric": "eight-capability equal-weight macro average",
+  "multiple_select_official_metric": "exact-set accuracy"
+}
