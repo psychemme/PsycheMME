@@ -70,12 +70,6 @@ bash scripts/evaluate.sh
 
 This downloads the benchmark, runs **Infer → Judge → Score**, and saves `predictions.jsonl`, `judgments.jsonl` and `scores.summary.json` in `runs/my-model/`.
 
-For a first run, evaluate ten questions and download only their videos:
-
-```bash
-RUN_DIR=runs/sample bash scripts/evaluate.sh 10
-```
-
 Repeat the same command to continue an interrupted run. Completed records are reused. After resolving a transient endpoint error, explicitly retry saved execution errors with `RETRY_ERRORS=1` before the command. Use a new `RUN_DIR` when changing the model or evaluation settings.
 
 ## Document

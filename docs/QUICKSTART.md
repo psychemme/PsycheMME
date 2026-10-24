@@ -19,19 +19,15 @@ Fill in the model and text Judge URLs, served model IDs and API keys in `.env`. 
 
 ## Evaluate
 
-Start with ten real benchmark questions:
-
-```bash
-RUN_DIR=runs/sample bash scripts/evaluate.sh 10
-```
-
-The sample covers the eight capabilities and downloads only the required videos. Run the full benchmark with:
+Run all 1,000 questions over 630 video episodes:
 
 ```bash
 bash scripts/evaluate.sh
 ```
 
-Results are saved in the selected `RUN_DIR`:
+The first run downloads about 27.6 GB of videos and the benchmark annotations. Install FFmpeg and allow additional space for sampled frames. API requests use your configured model and Judge services.
+
+Results are saved in `runs/my-model/` (or your configured `RUN_DIR`):
 
 ```text
 predictions.jsonl       Model answers and rationales
@@ -47,7 +43,7 @@ Repeat the same command after interruption. Saved terminal records are reused, a
 Temporary network errors are retried twice per inference request. After fixing an endpoint problem, retry saved execution errors explicitly:
 
 ```bash
-RETRY_ERRORS=1 RUN_DIR=runs/sample bash scripts/evaluate.sh 10
+RETRY_ERRORS=1 bash scripts/evaluate.sh
 ```
 
 Inference prints progress and reports successful responses, format failures, endpoint errors and pending questions. A failed stage returns a nonzero exit code. See [Troubleshooting](TROUBLESHOOTING.md) for recovery steps.

@@ -15,8 +15,8 @@ authors:
     given-names: "Yong"
   - family-names: "Zhang"
     given-names: "Jiangning"
-version: "1.0.1"
-date-released: "2026-10-24"
+version: "1.0.2"
+date-released: "2026-10-25"
 url: "https://psychemme.github.io/"
 repository-code: "https://github.com/psychemme/PsycheMME"
 license: Apache-2.0

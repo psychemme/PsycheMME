@@ -75,6 +75,6 @@ Read `scores.summary.json`: capability counts, Raw/Verified macro, missing capab
 
 If using `--limit`, select matching input/reference subsets before judging. Report the evaluated population, model revisions, backend, sampling, generation settings and Judge version with results.
 
-## Small evaluations and recovery
+## Continue an evaluation
 
-Run `RUN_DIR=runs/sample bash scripts/evaluate.sh 10` for a ten-question evaluation with matching inputs and references. Repeat the command to continue. Add `--resume` to individual `infer` or `judge` commands to reuse completed records. `--resume --retry-errors` explicitly retries saved execution errors after the underlying problem is fixed. Completed answers and format failures are retained.
+Run `bash scripts/evaluate.sh` for the full benchmark. Repeat the same command to continue. Add `--resume` to individual `infer` or `judge` commands to reuse completed records. `--resume --retry-errors` explicitly retries saved execution errors after the underlying problem is fixed. Completed answers and format failures are retained.
