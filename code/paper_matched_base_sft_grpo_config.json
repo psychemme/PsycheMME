@@ -29,8 +29,8 @@
     "parser": "frozen revised enterprise_parse",
     "judge": "canonical frozen Qwen3.8-27B v3 explicit-only text evidence protocol",
     "failure_policy": "all1000 fixed denominator; inference/format/Judge failures zero",
-    "no_training": true,
-    "no_checkpoint_selection": true
+    "evaluation_updates_weights": false,
+    "evaluation_selects_checkpoint": false
   },
   "models": [
     {

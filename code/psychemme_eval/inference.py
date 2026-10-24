@@ -5,6 +5,9 @@ import json
 import os
 from pathlib import Path
 import urllib.request
+import urllib.error
+import time
+import sys
 from .data import dump_json, dump_jsonl, sha256, unique_index, validate_public
 from .media import frames_1fps, resolve_media
 from .protocol import enterprise_prompt, enterprise_parse, transcript
@@ -37,7 +40,7 @@ def request_api(endpoint, model, frames, prompt, key_env, timeout):
 
 
 class LocalQwen:
-    """Standard HF/PEFT backend; historical custom offload implementation omitted."""
+    """Multimodal Qwen inference with Hugging Face and PEFT."""
     def __init__(self, base, revision, adapter=None, adapter_revision=None):
         import torch
         from transformers import Qwen3_5ForConditionalGeneration, AutoProcessor
@@ -69,47 +72,106 @@ class LocalQwen:
         return self.processor.decode(tokens, skip_special_tokens=True), 'stop' if end is not None else 'length'
 
 
+def network_error(exc):
+    if isinstance(exc, urllib.error.HTTPError):
+        return exc.code in {408, 429, 500, 502, 503, 504}
+    return isinstance(exc, (urllib.error.URLError, TimeoutError, ConnectionError))
+
+
 def run(public, asr_rows, source_rows, args):
+    from .checkpoint import run_lock
+    with run_lock(args.output):
+        return _run(public, asr_rows, source_rows, args)
+
+
+def _run(public, asr_rows, source_rows, args):
+    from .checkpoint import bind_output
+    from .data import read_jsonl
     validate_public(public)
     asr = unique_index(asr_rows, 'episode_id')
     locators = unique_index(source_rows, 'episode_id')
     output = Path(args.output)
-    if output.exists() or output.with_suffix('.run.json').exists():
-        raise ValueError('Output already exists: use a fresh run path')
     selected = public[:args.limit] if args.limit else public
     if not selected:
         raise ValueError('Empty evaluation population')
+    settings = {
+        'backend': args.backend, 'model': args.model, 'base_revision': args.revision,
+        'adapter': args.adapter, 'adapter_revision': args.adapter_revision,
+        'endpoint': args.base_url if args.backend == 'api' else None,
+        'inputs': selected, 'asr': asr_rows, 'sources': source_rows,
+        'implementation': {name: sha256(Path(__file__).with_name(name)) for name in
+                           ('inference.py', 'protocol.py', 'media.py')},
+        'sampling': 'full-timeline 1 fps, uniform cap64', 'max_new_tokens': 768,
+        'temperature': 0, 'seed': 42, 'thinking': False,
+    }
+    # Only the digest of input records is needed in the run manifest.
+    from .checkpoint import digest
+    for key in ('inputs', 'asr', 'sources'):
+        settings[key] = digest(settings[key])
+    manifest = bind_output(output, settings, getattr(args, 'resume', False))
+    previous = unique_index(read_jsonl(output)) if output.exists() else {}
+    ids = {x['question_id'] for x in selected}
+    if previous.keys() - ids:
+        raise ValueError('Checkpoint contains questions outside this run.')
+    for row in previous.values():
+        if row.get('status') not in {'OK', 'UNPARSEABLE', 'ERROR'}:
+            raise ValueError('Checkpoint contains an unknown prediction status.')
+    retry_errors = getattr(args, 'retry_errors', False)
+    pending = [item for item in selected if item['question_id'] not in previous or
+               (retry_errors and previous[item['question_id']].get('status') == 'ERROR')]
     local = None
-    if args.backend == 'local-qwen':
+    if pending and args.backend == 'local-qwen':
         if not args.revision:
-            raise ValueError('Local base model revision must be pinned')
+            raise ValueError('Set --revision for the local base model.')
         if args.adapter and not args.adapter_revision:
-            raise ValueError('Adapter revision must be pinned')
+            raise ValueError('Set --adapter-revision when using an adapter.')
         local = LocalQwen(args.model, args.revision, args.adapter, args.adapter_revision)
-    elif not args.base_url:
+    elif pending and args.backend == 'api' and not args.base_url:
         raise ValueError('API backend requires --base-url')
-    records=[]
-    for item in selected:
-        record={'question_id':item['question_id'], 'model_id':args.model, 'episode_id':item['episode_id'], 'frame_count_used':0}
+    retries = getattr(args, 'retries', 2)
+    for item in pending:
+        qid = item['question_id']
+        record = {'question_id': qid, 'model_id': args.model,
+                  'episode_id': item['episode_id'], 'frame_count_used': 0}
+        old = previous.get(qid)
+        if old:
+            record['previous_attempts'] = [*old.get('previous_attempts', []),
+                                         {k: v for k, v in old.items() if k != 'previous_attempts'}]
         try:
             frames, prompt = build_input(item, asr, args.media_root, args.frame_cache, locators)
-            raw, finish = local.generate(frames,prompt) if local else request_api(args.base_url,args.model,frames,prompt,args.api_key_env,args.timeout)
-            parsed, valid, reason = enterprise_parse(raw,item,set('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[:len(item['options'])]))
+            for attempt in range(retries + 1):
+                try:
+                    raw, finish = local.generate(frames, prompt) if local else request_api(
+                        args.base_url, args.model, frames, prompt, args.api_key_env, args.timeout)
+                    break
+                except Exception as exc:
+                    if local or not network_error(exc) or attempt == retries:
+                        raise
+                    time.sleep(min(8, 2 ** attempt))
+            parsed, valid, reason = enterprise_parse(raw, item, set('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[:len(item['options'])]))
             if finish != 'stop':
                 valid, reason = False, 'non_stop_finish_reason'
-            record.update(prediction=parsed, prediction_raw=raw, format_valid=valid, status='OK' if valid else 'UNPARSEABLE', parse_reason=reason,
-                          finish_reason=finish, frame_count_used=len(frames), prompt_sha256=__import__('hashlib').sha256(prompt.encode()).hexdigest())
+            record.update(prediction=parsed, prediction_raw=raw, format_valid=valid,
+                          status='OK' if valid else 'UNPARSEABLE', parse_reason=reason,
+                          finish_reason=finish, frame_count_used=len(frames),
+                          prompt_sha256=__import__('hashlib').sha256(prompt.encode()).hexdigest())
         except Exception as exc:
-            # Do not copy API/HTTP exception text, headers, paths or response bodies into public logs.
-            record.update(prediction={}, format_valid=False, status='ERROR', error_type=type(exc).__name__)
-        records.append(record)
-        dump_jsonl(output,records)
-    dump_json(output.with_suffix('.run.json'),{
-        'backend':args.backend,'model':args.model,'base_revision':args.revision,
-        'adapter':args.adapter,'adapter_revision':args.adapter_revision,
-        'n':len(selected),'input_ids':[p['question_id'] for p in selected],
-        'sampling':'full-timeline 1 fps, uniform cap64','max_new_tokens':768,'temperature':0,'seed':42,
-        'thinking':False,'format_guidance':False,'gold_inputs_read':False,
-        'scope':'New evaluation of supplied release inputs; not an assertion of historical score equivalence',
-    })
-    return {'records':len(records),'successes':sum(r['status']=='OK' for r in records),'failures':sum(r['status']!='OK' for r in records)}
+            record.update(prediction={}, format_valid=False, status='ERROR',
+                          error_type=type(exc).__name__, retryable=network_error(exc))
+            if isinstance(exc, urllib.error.HTTPError):
+                record['http_status'] = exc.code
+        previous[qid] = record
+        dump_jsonl(output, [previous[x['question_id']] for x in selected if x['question_id'] in previous])
+        print(f"Inference {len(previous)}/{len(selected)}: {qid} {record['status']}", file=sys.stderr, flush=True)
+        if record.get('http_status') in {401, 403}:
+            break
+    records = [previous[x['question_id']] for x in selected if x['question_id'] in previous]
+    result = {'records': len(records), 'expected': len(selected),
+              'successes': sum(r['status'] == 'OK' for r in records),
+              'format_failures': sum(r['status'] == 'UNPARSEABLE' for r in records),
+              'errors': sum(r['status'] == 'ERROR' for r in records),
+              'pending': len(selected) - len(records), 'output': str(output)}
+    result['failures'] = result['format_failures'] + result['errors']
+    result['status'] = 'PASS' if not result['errors'] and not result['pending'] else 'INCOMPLETE'
+    saved = json.loads(manifest.read_text()); saved['summary'] = result; dump_json(manifest, saved)
+    return result

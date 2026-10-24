@@ -2,6 +2,8 @@
 from __future__ import annotations
 import hashlib
 import json
+import os
+import tempfile
 from pathlib import Path
 
 CAPABILITIES = tuple("GWNTSAMR")
@@ -88,13 +90,24 @@ def validate_pair(public, references):
     return inputs, truth
 
 
-def dump_json(path, value):
+def atomic_write(path, text):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, allow_nan=False, indent=2) + "\n")
+    fd, temporary = tempfile.mkstemp(prefix=path.name + '.', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as stream:
+            stream.write(text)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def dump_json(path, value):
+    atomic_write(path, json.dumps(value, ensure_ascii=False, allow_nan=False, indent=2) + "\n")
 
 
 def dump_jsonl(path, records):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(''.join(json.dumps(r, ensure_ascii=False, allow_nan=False) + '\n' for r in records))
+    atomic_write(path, ''.join(json.dumps(r, ensure_ascii=False, allow_nan=False) + '\n' for r in records))

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "psychemme-eval"
-version = "1.0.1"
+version = "1.0.2"
 description = "PsycheMME public evaluation and frozen-score replay tools"
 readme = "code/README.md"
 requires-python = ">=3.10"

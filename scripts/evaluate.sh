@@ -1,41 +1,49 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+OVERRIDES=()
+for name in MODEL_BASE_URL MODEL_ID MODEL_API_KEY JUDGE_BASE_URL JUDGE_MODEL JUDGE_API_KEY DATA_DIR RUN_DIR LIMIT RETRY_ERRORS; do
+  if [[ "${!name+x}" == x ]]; then OVERRIDES+=("$name=${!name}"); fi
+done
 if [[ -f .env ]]; then
-  set -a
-  source .env
-  set +a
+  set -a; source .env; set +a
 fi
+for value in "${OVERRIDES[@]-}"; do
+  if [[ -n "$value" ]]; then export "$value"; fi
+done
 : "${MODEL_BASE_URL:?Set MODEL_BASE_URL in .env}"
 : "${MODEL_ID:?Set MODEL_ID in .env}"
 : "${JUDGE_BASE_URL:?Set JUDGE_BASE_URL in .env}"
 : "${JUDGE_MODEL:?Set JUDGE_MODEL in .env}"
 DATA_DIR="${DATA_DIR:-data/PsycheMME}"
 RUN_DIR="${RUN_DIR:-runs/my-model}"
-if [[ -e "$RUN_DIR" ]]; then
-  echo 'RUN_DIR already exists. Choose a fresh run directory in .env.' >&2
-  exit 2
-fi
+LIMIT="${1:-${LIMIT:-0}}"
+[[ "$LIMIT" =~ ^[0-9]+$ ]] || { echo 'Use a nonnegative sample size.' >&2; exit 2; }
 command -v ffmpeg >/dev/null || { echo 'Install FFmpeg before evaluation.' >&2; exit 2; }
-psychemme download --bundle benchmark --output "$DATA_DIR"
-psychemme infer --backend api \
-  --inputs "$DATA_DIR/benchmark/public/test.jsonl" --asr "$DATA_DIR/benchmark/asr.jsonl" \
-  --sources "$DATA_DIR/metadata/media.jsonl" --media-root "$DATA_DIR/benchmark/media" \
-  --frame-cache runs/frames --base-url "$MODEL_BASE_URL" --api-key-env MODEL_API_KEY \
+mkdir -p "$RUN_DIR"
+if (( LIMIT > 0 )); then
+  psychemme download --bundle benchmark --metadata-only --output "$DATA_DIR"
+  psychemme prepare --root "$DATA_DIR" --output "$RUN_DIR/inputs" --limit "$LIMIT"
+  INPUTS="$RUN_DIR/inputs/inputs.jsonl"; REFERENCES="$RUN_DIR/inputs/references.jsonl"
+  ASR="$RUN_DIR/inputs/asr.jsonl"; SOURCES="$RUN_DIR/inputs/sources.jsonl"
+else
+  psychemme download --bundle benchmark --output "$DATA_DIR"
+  INPUTS="$DATA_DIR/benchmark/public/test.jsonl"; REFERENCES="$DATA_DIR/benchmark/ground_truth.jsonl"
+  ASR="$DATA_DIR/benchmark/asr.jsonl"; SOURCES="$DATA_DIR/metadata/media.jsonl"
+fi
+RETRY_ARGS=(--retries 2)
+if [[ "${RETRY_ERRORS:-0}" == 1 ]]; then RETRY_ARGS+=(--retry-errors); fi
+psychemme infer --backend api --resume "${RETRY_ARGS[@]}" \
+  --inputs "$INPUTS" --asr "$ASR" --sources "$SOURCES" \
+  --media-root "$DATA_DIR/benchmark/media" --frame-cache runs/frames \
+  --base-url "$MODEL_BASE_URL" --api-key-env MODEL_API_KEY \
   --model "$MODEL_ID" --output "$RUN_DIR/predictions.jsonl"
-python - "$RUN_DIR/predictions.jsonl" <<'PY'
-import json,sys
-with open(sys.argv[1]) as stream:
-    rows=[json.loads(line) for line in stream if line.strip()]
-if not any(row.get('status') == 'OK' for row in rows):
-    raise SystemExit('No valid model responses. Check the endpoint and prediction statuses before judging.')
-PY
-psychemme judge \
-  --inputs "$DATA_DIR/benchmark/public/test.jsonl" --references "$DATA_DIR/benchmark/ground_truth.jsonl" \
+JUDGE_RETRY_ARGS=(--retries 2)
+if [[ "${RETRY_ERRORS:-0}" == 1 ]]; then JUDGE_RETRY_ARGS+=(--retry-errors); fi
+psychemme judge --resume "${JUDGE_RETRY_ARGS[@]}" --inputs "$INPUTS" --references "$REFERENCES" \
   --predictions "$RUN_DIR/predictions.jsonl" --base-url "$JUDGE_BASE_URL" \
   --api-key-env JUDGE_API_KEY --judge-model "$JUDGE_MODEL" --output "$RUN_DIR/judgments.jsonl"
-psychemme score \
-  --inputs "$DATA_DIR/benchmark/public/test.jsonl" --references "$DATA_DIR/benchmark/ground_truth.jsonl" \
+psychemme score --inputs "$INPUTS" --references "$REFERENCES" \
   --predictions "$RUN_DIR/predictions.jsonl" --judgments "$RUN_DIR/judgments.jsonl" \
   --output "$RUN_DIR/scores.jsonl"
 echo "Results: $RUN_DIR/scores.summary.json"

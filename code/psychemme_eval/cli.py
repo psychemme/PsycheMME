@@ -38,6 +38,15 @@ def main():
     infer.add_argument('--base-url'); infer.add_argument('--api-key-env', default=''); infer.add_argument('--timeout', type=float, default=900)
     infer.add_argument('--revision'); infer.add_argument('--adapter'); infer.add_argument('--adapter-revision')
     infer.add_argument('--limit', type=int, default=0)
+    infer.add_argument('--resume', action='store_true', help='Continue a matching run')
+    infer.add_argument('--retry-errors', action='store_true', help='Retry saved execution errors with --resume')
+    infer.add_argument('--retries', type=int, default=2, help='Retries per transient request failure')
+    judge.add_argument('--retry-errors', action='store_true', help='Retry saved Judge errors with --resume')
+    judge.add_argument('--resume', action='store_true', help='Continue a matching Judge run')
+    prepare = commands.add_parser('prepare', help='Download videos and prepare matching sample inputs')
+    prepare.add_argument('--root', required=True)
+    prepare.add_argument('--output', required=True)
+    prepare.add_argument('--limit', required=True, type=int)
     from .video import add_arguments
     video = commands.add_parser('video', help='Ask a question about your own local video using Qwen')
     add_arguments(video)
@@ -62,6 +71,9 @@ def execute(args):
             result = onboarding.download(output, args.bundle, args.metadata_only)
         elif args.command == 'doctor': result = onboarding.doctor(args.data_root, args.mode)
         else: result = onboarding.import_predictions(args.inputs, args.responses, args.model, args.output)
+    elif args.command == 'prepare':
+        from .subset import prepare
+        result=prepare(args.root, args.output, args.limit)
     elif args.command == 'validate':
         public = read_jsonl(args.inputs)
         validate_pair(public,read_jsonl(args.references)) if args.references else validate_public(public)
@@ -69,7 +81,7 @@ def execute(args):
             asr=unique_index(read_jsonl(args.asr),'episode_id')
             if {q['episode_id'] for q in public} - asr.keys():
                 raise ValueError('Missing ASR records')
-        result={'status':'PASS','questions':len(public),'episodes':len({r['episode_id'] for r in public}),'scope':'Structural validation only; no semantic or rights certification'}
+        result={'status':'PASS','questions':len(public),'episodes':len({r['episode_id'] for r in public}),'scope':'Validated question IDs, reference fields and ASR mappings'}
     elif args.command == 'replay':
         root=args.root
         factors=read_jsonl(root/'results/scoring_inputs.jsonl')
@@ -91,7 +103,7 @@ def execute(args):
                 raise ValueError('Paper cell mismatch')
             cells+=len(values)
         result={'status':'PASS','models':len(summaries),'factor_rows':len(records),'paper_cells_matched':cells,'summaries':summaries,
-                'scope':'Recomputed formula from archived basic credit/labels; no re-judging or independent validation of model calls'}
+                'scope':'Recomputed paper scores from released answer credit and rationale factors'}
         dump_json(args.output,result)
     elif args.command == 'video':
         from .video import run
@@ -101,32 +113,50 @@ def execute(args):
         dump_jsonl(args.output,records);dump_json(Path(args.output).with_suffix('.summary.json'),summary)
         result=summary
     elif args.command == 'judge':
+        if args.retries < 1 or args.concurrency < 1 or args.timeout < 1:
+            raise ValueError('Judge retries, concurrency and timeout must be positive.')
         import sys
         from . import judge as judge_module
         public=read_jsonl(args.inputs);validate_pair(public,read_jsonl(args.references))
         predictions=unique_index(read_jsonl(args.predictions))
         if predictions.keys()!={r['question_id'] for r in public}:
             raise ValueError('Judge requires exact prediction/public ID closure')
-        if Path(args.output).exists():
-            raise ValueError('Use a fresh judgment output; previous verification epochs are immutable')
         argv=['psychemme-judge','--ground-truth',args.references,'--predictions',args.predictions,
               '--public-inputs',args.inputs,'--output',args.output,'--base-url',args.base_url,
               '--judge-model',args.judge_model,'--config',str(Path(__file__).with_name('scoring_config.json')),
               '--api-key-env',args.api_key_env,'--timeout',str(args.timeout),'--retries',str(args.retries),'--concurrency',str(args.concurrency)]
         # Original CLI accepts integral seconds.
         argv[argv.index('--timeout')+1]=str(int(args.timeout))
-        previous=sys.argv
-        try:
-            sys.argv=argv;judge_module.main()
-        finally:
-            sys.argv=previous
-        result={'judgments':len(read_jsonl(args.output)),'scope':'New judge epoch; never overwrites archived paper judgments'}
+        from .checkpoint import run_lock, bind_output
+        from .data import sha256
+        settings = {name: sha256(getattr(args, name)) for name in ('inputs', 'references', 'predictions')}
+        settings.update(endpoint=args.base_url, model=args.judge_model,
+                        implementation=sha256(Path(judge_module.__file__)),
+                        memory=sha256(Path(__file__).with_name('memory_verification_context.py')),
+                        scoring=sha256(Path(__file__).with_name('scoring_config.json')))
+        if args.retry_errors:
+            if not args.resume: raise ValueError('--retry-errors requires --resume')
+            argv.append('--retry-errors')
+        with run_lock(args.output):
+            bind_output(args.output, settings, args.resume)
+            previous=sys.argv
+            try:
+                sys.argv=argv; judge_module.main()
+            finally:
+                sys.argv=previous
+            rows=read_jsonl(args.output)
+        errors=sum(r.get('status')!='OK' for r in rows)
+        result={'judgments':len(rows), 'expected':len(public), 'errors':errors,
+                'status':'PASS' if len(rows)==len(public) and not errors else 'INCOMPLETE'}
     else:
-        if args.limit<0:raise ValueError('--limit must be nonnegative')
+        if args.limit<0 or args.retries<0:raise ValueError('--limit and --retries must be nonnegative')
+        if args.retry_errors and not args.resume:raise ValueError('--retry-errors requires --resume')
         from .inference import run
         result=run(read_jsonl(args.inputs),read_jsonl(args.asr),read_jsonl(args.sources),args)
     print(json.dumps({k:v for k,v in result.items() if k!='summaries'},ensure_ascii=False,allow_nan=False,indent=2))
     if args.command == 'doctor' and result['status'] != 'PASS':
+        raise SystemExit(1)
+    if args.command in {'infer', 'judge'} and result['status'] != 'PASS':
         raise SystemExit(1)
     if args.command == 'video' and result['status'] != 'OK':
         raise SystemExit(1)

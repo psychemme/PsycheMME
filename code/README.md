@@ -2,7 +2,7 @@
 
 Install from the repository root with `python -m pip install .`, or install this directory with `python -m pip install ./code`. Python 3.10+ is required. The core package uses the standard library. Add `.[data]` for Hub downloads or `.[local-model]` for local inference. Use Python 3.11 for paper-score replay.
 
-`psychemme --help` lists the commands: `doctor`, `demo`, `video`, `download`, `import-predictions`, `validate`, `infer`, `judge`, `score` and `replay`.
+`psychemme --help` lists the commands: `doctor`, `demo`, `video`, `download`, `prepare`, `import-predictions`, `validate`, `infer`, `judge`, `score` and `replay`.
 
 - `psychemme_eval/`: data validation, prompt/parser, frames, Qwen/API inference, Judge and scoring.
 - `configs/`: model metadata and protocol settings.

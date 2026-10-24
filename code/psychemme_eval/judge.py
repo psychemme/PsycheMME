@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Text-only Evidence Support + Logical Integrity judge for V3 predictions."""
+"""Text-only Evidence Support and Logical Integrity judge."""
 from __future__ import annotations
 import argparse, concurrent.futures, json, os, random, re, threading, time, urllib.error, urllib.request
 from pathlib import Path
@@ -73,6 +73,7 @@ def main():
     p=argparse.ArgumentParser()
     for n in ("ground-truth","predictions","output","base-url","judge-model"):p.add_argument("--"+n,required=True)
     p.add_argument("--config",required=True);p.add_argument("--api-key-env",default="");p.add_argument("--secrets-env",default="");p.add_argument("--concurrency",type=int,default=4);p.add_argument("--timeout",type=int,default=300);p.add_argument("--retries",type=int,default=4)
+    p.add_argument('--retry-errors', action='store_true')
     p.add_argument('--public-inputs', default=''); p.add_argument('--memory-map', default='')
     a=p.parse_args();load_env(a.secrets_env); gt={x["question_id"]:x for x in read(a.ground_truth)}
     public={x['question_id']:x for x in read(a.public_inputs)} if a.public_inputs else gt
@@ -84,6 +85,7 @@ def main():
     out=Path(a.output);out.parent.mkdir(parents=True,exist_ok=True)
     previous=read(out) if out.is_file() else []
     done=set()
+    assert len({row['question_id'] for row in previous}) == len(previous), 'duplicate judgment IDs'
     for old in previous:
         qid=old['question_id']
         assert qid in latest_predictions, 'foreign judgment in output'
@@ -93,8 +95,10 @@ def main():
             assert old.get('judge_version')==VERSION and old.get('verification_memory_context_sha256')==context_digest(context), 'legacy or changed memory judgment: use a fresh output and preserve the old file'
             assert old.get('status') in {'OK','ERROR'}, 'nonterminal memory judgment'
             done.add(qid)
-        elif old.get('status')=='OK':
+        elif old.get('status') in {'OK', 'ERROR'}:
             done.add(qid)
+    if a.retry_errors:
+        done -= {row['question_id'] for row in previous if row.get('status') == 'ERROR'}
     predictions=[x for qid,x in latest_predictions.items() if qid not in done];lock=threading.Lock()
     def run(pred):
         truth=gt[pred["question_id"]]; basic=exact_basic(truth,pred)
@@ -141,9 +145,9 @@ def main():
                     if answer_value.get("answer_score") not in {0,0.5,1}: raise ValueError("invalid open answer judge schema")
                     basic=float(answer_value["answer_score"]); answer_reason=answer_value.get("answer_reason"); break
                 except Exception as exc:
-                    error=f"{type(exc).__name__}: {exc}"; time.sleep(min(20,2**(answer_attempt-1)+random.random()))
+                    error=type(exc).__name__ + (f" (HTTP {exc.code})" if isinstance(exc, urllib.error.HTTPError) else ""); time.sleep(min(20,2**(answer_attempt-1)+random.random()))
             if basic is None:
-                return {"question_id":pred["question_id"],"model_id":pred.get("model_id"),"status":"ERROR","stage":"open_answer_judge","error":error}
+                return {"question_id":pred["question_id"],"model_id":pred.get("model_id"),"status":"ERROR","stage":"open_answer_judge","error":error,**memory_meta}
         if coverage == "missing":
             return {"question_id":pred["question_id"],"model_id":pred.get("model_id"),"status":"OK","basic_answer_score":basic,"answer_reason":answer_reason,"answer_judge_raw":answer_raw,"answer_judge_attempt":answer_attempt,"reasoning_coverage":"missing","informative_reasoning_slots":[],"support":"insufficient","logic":"unevaluable","support_reason":"No explicit informative rationale was provided.","logic_reason":"Logical integrity cannot be evaluated without explicit rationale.","reasoning_judge_skipped":True,"reasoning_judge_raw":None,"judge_model":a.judge_model,"judge_version":"psychebench-reasoning-text-judge-v3-explicit-only","attempt":0,"error":None,**memory_meta}
         payload={"question":truth["question"],"options":truth.get("options") or [],"gold_reference_answer":truth.get("reference_answer") or truth.get("answers") or truth.get("answer_indices"),"frozen_evidence":truth.get("evidence") or [],"model_answer":prediction.get("answer"),"model_reasoning":{field:prediction.get(field) for field in REASONING_FIELDS},"informative_reasoning_slots":list(slots),"category":truth.get("category"),"task_type":truth.get("task_type")}
@@ -154,11 +158,23 @@ def main():
                 value,raw=call(a,payload,REASONING_SYSTEM + SYSTEM_ADDITION if memory else REASONING_SYSTEM); valid=value.get("support") in {"strong","normal","weak","contradicted"} and value.get("logic") in {"fully_coherent","acceptable","weak","contradictory"}
                 if not valid: raise ValueError("invalid judge schema")
                 return {"question_id":pred["question_id"],"model_id":pred.get("model_id"),"status":"OK","basic_answer_score":basic,"answer_reason":answer_reason,"answer_judge_raw":answer_raw,"answer_judge_attempt":answer_attempt,**value,"reasoning_coverage":"present","informative_reasoning_slots":list(slots),"reasoning_judge_skipped":False,"reasoning_judge_raw":raw,"judge_model":a.judge_model,"judge_version":"psychebench-reasoning-text-judge-v3-explicit-only","attempt":attempt,"error":None,**memory_meta}
-            except Exception as exc: error=f"{type(exc).__name__}: {exc}"; time.sleep(min(20,2**(attempt-1)+random.random()))
+            except Exception as exc: error=type(exc).__name__ + (f" (HTTP {exc.code})" if isinstance(exc, urllib.error.HTTPError) else ""); time.sleep(min(20,2**(attempt-1)+random.random()))
         return {"question_id":pred["question_id"],"model_id":pred.get("model_id"),"status":"ERROR","error":error,**memory_meta}
-    with out.open("a",encoding="utf-8") as h,concurrent.futures.ThreadPoolExecutor(max_workers=a.concurrency) as pool:
+    try:
+        from .data import dump_jsonl
+    except ImportError:
+        from data import dump_jsonl
+    persisted = list(previous)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=a.concurrency) as pool:
         for f in concurrent.futures.as_completed([pool.submit(run,x) for x in predictions]):
             r=f.result()
-            with lock:h.write(json.dumps(r,ensure_ascii=False,sort_keys=True)+"\n");h.flush();os.fsync(h.fileno())
+            with lock:
+                old = next((row for row in persisted if row['question_id'] == r['question_id']), None)
+                if old:
+                    r['previous_attempts'] = [*old.get('previous_attempts', []),
+                                              {k:v for k,v in old.items() if k != 'previous_attempts'}]
+                    persisted = [row for row in persisted if row['question_id'] != r['question_id']]
+                persisted.append(r)
+                dump_jsonl(out, persisted)
             print(json.dumps({"qid":r["question_id"],"status":r["status"]}),flush=True)
 if __name__=="__main__":main()

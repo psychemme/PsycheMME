@@ -1,6 +1,6 @@
 # Video inference
 
-The SFT and GRPO adapters use **`Qwen3_5ForConditionalGeneration`**, `AutoProcessor` and PEFT. This is a multimodal model; the generic Hub `AutoModelForCausalLM` example is not the video-loading recipe.
+The SFT and GRPO adapters use **`Qwen3_5ForConditionalGeneration`**, `AutoProcessor` and PEFT. Load the multimodal base, then attach the LoRA adapter with PEFT.
 
 ## Install
 
@@ -26,14 +26,14 @@ curl --fail --location \
 psychemme video --video examples/video.mp4 \
   --question "Summarize the video content." \
   --adapter psychemme/PsycheMME-Qwen3.5-4B-SFT \
-  --adapter-revision v1.0-paper.1 \
+  --adapter-revision v1.0.2 \
   --output runs/video.json
 ```
 
-For GRPO, use `psychemme/PsycheMME-Qwen3.5-4B-GRPO`. Omit both adapter arguments for the base model. Each adapter loads directly on `Qwen/Qwen3.5-4B`; do not load SFT underneath GRPO.
+For GRPO, use `psychemme/PsycheMME-Qwen3.5-4B-GRPO`. Omit both adapter arguments for the base model. Each adapter loads directly on `Qwen/Qwen3.5-4B`.
 
 For a spoken interaction, pass `--asr transcript.txt` with your UTF-8 transcript. The command uses the full video timeline, FFmpeg 1 fps, a uniform cap of 64 frames, the original processor, BF16/SDPA, seed 42, greedy generation and at most 768 new tokens. Thinking is disabled.
 
-The JSON output contains the response, frame count, model revisions and finish reason. A token-limit completion is reported as `INCOMPLETE` with a nonzero exit code. Existing outputs are not overwritten.
+The JSON output contains the response, frame count, model revisions and finish reason. A token-limit completion is reported as `INCOMPLETE` with a nonzero exit code. Use a different output path for each video example.
 
 The command shares `LocalQwen` and `frames_1fps` with benchmark inference. It answers a free-form question; use [`infer`, `judge` and `score`](MODEL_INTEGRATION.md) for the benchmark's structured responses and metrics. This sample video is supplied by Qwen and is not part of PsycheMME.

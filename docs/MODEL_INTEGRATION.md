@@ -1,6 +1,6 @@
 # Evaluate your model
 
-Install the package and try the [offline demo](QUICKSTART.md) or [local video example](VIDEO.md). Download the benchmark with `python scripts/sync_resources.py benchmark` using the [documented layout](DATA_FORMAT.md). Use matching question populations for inference, judging and scoring.
+Install the package using [Quick Start](QUICKSTART.md). Download the benchmark with `python scripts/sync_resources.py benchmark` using the [documented layout](DATA_FORMAT.md). Use matching question populations for inference, judging and scoring.
 
 ## Quick evaluation
 
@@ -12,7 +12,7 @@ cp .env.example .env
 bash scripts/evaluate.sh
 ```
 
-The script downloads the benchmark, runs Infer → Judge → Score, and saves predictions, judgments and scores under `runs/my-model/`. Use a fresh `RUN_DIR` for each run. Install FFmpeg before evaluation.
+The script downloads the benchmark, runs Infer → Judge → Score, and saves predictions, judgments and scores under `runs/my-model/`. Repeat the same command to resume. Use a new `RUN_DIR` for different inputs or settings. Install FFmpeg before evaluation.
 
 ## Compatible chat-completions API
 
@@ -33,7 +33,7 @@ The endpoint must support image messages and honor requested generation controls
 
 ## Your own runner
 
-Use only public inputs, ASR and authorized media. `psychemme_eval.inference.build_input` prepares frames from the mapped release videos and the exact public prompt; it has no gold argument. Save one line per response:
+Use only public inputs, ASR and authorized media. `psychemme_eval.inference.build_input` prepares frames from the mapped release videos and the exact public prompt; it supplies the model-facing inputs. Save one line per response:
 
 ```json
 {"question_id":"YOUR_QUESTION_ID","response":{"answer":"A","G":"A brief cue-supported observation.","W":null,"N":null,"T":null,"S":null,"A":null,"R":null,"M":null},"finish_reason":"stop"}
@@ -54,7 +54,7 @@ For local Qwen, install `python -m pip install '.[local-model]'` with the approp
 
 ## Judge separately, then score
 
-The Judge endpoint is explicitly selected by you and may charge for calls. Demo, doctor, download and replay never invoke it. Record its exact served model/version and configuration.
+Configure a text Judge endpoint and record its served model/version with the results.
 
 ```sh
 psychemme judge \
@@ -74,3 +74,7 @@ psychemme score \
 Read `scores.summary.json`: capability counts, Raw/Verified macro, missing capabilities. Missing predictions stay in the denominator. An incomplete-capability population has official macro `null`, with the exploratory present-capability mean labeled separately. Open credit needs a successful saved semantic judgment. Failed judges receive zero Verified credit. Full rules: [EVALUATION.md](EVALUATION.md).
 
 If using `--limit`, select matching input/reference subsets before judging. Report the evaluated population, model revisions, backend, sampling, generation settings and Judge version with results.
+
+## Small evaluations and recovery
+
+Run `RUN_DIR=runs/sample bash scripts/evaluate.sh 10` for a ten-question evaluation with matching inputs and references. Repeat the command to continue. Add `--resume` to individual `infer` or `judge` commands to reuse completed records. `--resume --retry-errors` explicitly retries saved execution errors after the underlying problem is fixed. Completed answers and format failures are retained.

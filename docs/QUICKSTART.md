@@ -1,43 +1,63 @@
 # Quick start
 
-Use Python 3.11 for paper-score replay. From the repository root:
+## Install
+
+Use Python 3.11 and [FFmpeg](https://ffmpeg.org/download.html).
 
 ```bash
+git clone https://github.com/psychemme/PsycheMME.git
+cd PsycheMME
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install '.[data]'
-psychemme doctor
-psychemme demo --output runs/demo
+cp .env.example .env
 ```
 
-The demo runs eight synthetic items on CPU, without API keys or downloads. Expected scores: **75.00% Raw**, **71.18% Reasoning-Verified**. Outputs include questions, references, predictions, judgments, per-question scores and a capability summary in `runs/demo/`.
+## Configure
 
-## Recompute the paper table
+Fill in the model and text Judge URLs, served model IDs and API keys in `.env`. The model endpoint accepts chat-completions requests containing images and text. Keys can be empty for your own unauthenticated local endpoints.
+
+## Evaluate
+
+Start with ten real benchmark questions:
+
+```bash
+RUN_DIR=runs/sample bash scripts/evaluate.sh 10
+```
+
+The sample covers the eight capabilities and downloads only the required videos. Run the full benchmark with:
+
+```bash
+bash scripts/evaluate.sh
+```
+
+Results are saved in the selected `RUN_DIR`:
+
+```text
+predictions.jsonl       Model answers and rationales
+judgments.jsonl         Answer and rationale assessments
+scores.jsonl            Question-level scores
+scores.summary.json     Raw / Verified capability and macro scores
+```
+
+## Continue a run
+
+Repeat the same command after interruption. Saved terminal records are reused, and each stage verifies that the inputs and settings match. Use a new directory for a different model or question population.
+
+Temporary network errors are retried twice per inference request. After fixing an endpoint problem, retry saved execution errors explicitly:
+
+```bash
+RETRY_ERRORS=1 RUN_DIR=runs/sample bash scripts/evaluate.sh 10
+```
+
+Inference prints progress and reports successful responses, format failures, endpoint errors and pending questions. A failed stage returns a nonzero exit code. See [Troubleshooting](TROUBLESHOOTING.md) for recovery steps.
+
+Next: [model integration](MODEL_INTEGRATION.md), [local video inference](VIDEO.md), [data format](DATA_FORMAT.md), [scoring](EVALUATION.md).
+
+## Recompute paper scores
 
 ```bash
 bash scripts/replay.sh
 ```
 
-This downloads [PsycheMME-logs](https://huggingface.co/datasets/psychemme/PsycheMME-logs) and checks **19,000 scores** and **190 table values**. It needs no videos, GPU or API key. The report is saved to `runs/paper_replay.json`.
-
-## Get the benchmark
-
-```bash
-python scripts/sync_resources.py benchmark
-```
-
-The download includes 1,000 questions, reference answers, 630 ASR transcripts, sources and 630 videos (about 27.6 GB). Interrupted downloads resume. To download annotations without videos:
-
-```bash
-python scripts/sync_resources.py benchmark --metadata-only
-```
-
-Questions are in `data/PsycheMME/benchmark/public/test.jsonl`. References are in `benchmark/ground_truth.jsonl`; supply them only to the Judge and scoring steps. Follow [Model Integration](MODEL_INTEGRATION.md) to evaluate a model through an API or the local Qwen backend.
-
-Paper-score replay uses the recorded paper outputs; model inference and judging are separate runs.
-
-## Run a local video
-
-Install FFmpeg and `python -m pip install '.[local-model]'`, then follow the [video example](VIDEO.md). The example uses the same Qwen loader and frame sampling as evaluation. A compatible GPU is required.
-
-Next: [data format](DATA_FORMAT.md), [scoring protocol](EVALUATION.md), [reproduction guide](REPRODUCIBILITY.md), or [troubleshooting](TROUBLESHOOTING.md).
+Checks 19,000 question-level scores and 190 table values from the released scoring factors. Output: `runs/paper_replay.json`.

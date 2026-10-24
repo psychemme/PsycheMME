@@ -1,4 +1,4 @@
-"""Small, auditable entry points for first-time users. No implicit model calls."""
+"""First-run setup, downloads and scoring examples."""
 from __future__ import annotations
 
 import importlib.metadata
@@ -39,7 +39,7 @@ def doctor(data_root=None, mode='core'):
                        'ok': all((root / name).is_file() for name in required)})
     return {'status': 'PASS' if all(c['ok'] for c in checks if c['required']) else 'FAIL',
             'mode': mode, 'checks': checks,
-            'scope': 'Core needs no GPU, ffmpeg or API key. Local mode checks installed dependencies, not CUDA capacity or numerical equivalence.'}
+            'scope': 'Dependency checks for the selected runtime.'}
 
 
 def demo(output):
@@ -71,7 +71,7 @@ def demo(output):
     dump_json(root / 'scores.summary.json', summary)
     result = {'status': 'PASS', 'examples': 8, 'raw_macro': round(summary['raw_macro'], 2),
               'verified_macro': round(summary['verified_macro'], 2), 'model_calls': 0, 'judge_calls': 0,
-              'scope': 'Synthetic software demo, not benchmark results. One wrong answer, one missing prediction, one reduced verification weight.'}
+              'scope': 'Synthetic examples of answer and rationale scoring.'}
     dump_json(root / 'DEMO.json', result)
     return result
 
@@ -105,4 +105,4 @@ def import_predictions(inputs, responses, model, output):
     return {'records': len(rows), 'valid': sum(row['status'] == 'OK' for row in rows),
             'missing': sum(row['status'] == 'MISSING' for row in rows),
             'invalid': sum(row['status'] == 'UNPARSEABLE' for row in rows),
-            'scope': 'Imported user responses; references are not read. Missing and invalid responses remain in the population.'}
+            'scope': 'Imported responses matched to the declared question population.'}
