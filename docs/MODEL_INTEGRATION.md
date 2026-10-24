@@ -73,7 +73,7 @@ psychemme score \
 
 Read `scores.summary.json`: capability counts, Raw/Verified macro, missing capabilities. Missing predictions stay in the denominator. An incomplete-capability population has official macro `null`, with the exploratory present-capability mean labeled separately. Open credit needs a successful saved semantic judgment. Failed judges receive zero Verified credit. Full rules: [EVALUATION.md](EVALUATION.md).
 
-If using `--limit`, select matching input/reference subsets before judging. Report the evaluated population, model revisions, backend, sampling, generation settings and Judge version with results.
+Report the evaluated population, model revisions, backend, sampling, generation settings and Judge version with results.
 
 ## Continue an evaluation
 

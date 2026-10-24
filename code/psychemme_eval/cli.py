@@ -37,16 +37,11 @@ def main():
     infer.add_argument('--backend', choices=['local-qwen','api'], default='local-qwen')
     infer.add_argument('--base-url'); infer.add_argument('--api-key-env', default=''); infer.add_argument('--timeout', type=float, default=900)
     infer.add_argument('--revision'); infer.add_argument('--adapter'); infer.add_argument('--adapter-revision')
-    infer.add_argument('--limit', type=int, default=0)
     infer.add_argument('--resume', action='store_true', help='Continue a matching run')
     infer.add_argument('--retry-errors', action='store_true', help='Retry saved execution errors with --resume')
     infer.add_argument('--retries', type=int, default=2, help='Retries per transient request failure')
     judge.add_argument('--retry-errors', action='store_true', help='Retry saved Judge errors with --resume')
     judge.add_argument('--resume', action='store_true', help='Continue a matching Judge run')
-    prepare = commands.add_parser('prepare', help='Download videos and prepare matching sample inputs')
-    prepare.add_argument('--root', required=True)
-    prepare.add_argument('--output', required=True)
-    prepare.add_argument('--limit', required=True, type=int)
     from .video import add_arguments
     video = commands.add_parser('video', help='Ask a question about your own local video using Qwen')
     add_arguments(video)
@@ -71,9 +66,6 @@ def execute(args):
             result = onboarding.download(output, args.bundle, args.metadata_only)
         elif args.command == 'doctor': result = onboarding.doctor(args.data_root, args.mode)
         else: result = onboarding.import_predictions(args.inputs, args.responses, args.model, args.output)
-    elif args.command == 'prepare':
-        from .subset import prepare
-        result=prepare(args.root, args.output, args.limit)
     elif args.command == 'validate':
         public = read_jsonl(args.inputs)
         validate_pair(public,read_jsonl(args.references)) if args.references else validate_public(public)
@@ -149,7 +141,7 @@ def execute(args):
         result={'judgments':len(rows), 'expected':len(public), 'errors':errors,
                 'status':'PASS' if len(rows)==len(public) and not errors else 'INCOMPLETE'}
     else:
-        if args.limit<0 or args.retries<0:raise ValueError('--limit and --retries must be nonnegative')
+        if args.retries<0:raise ValueError('--retries must be nonnegative')
         if args.retry_errors and not args.resume:raise ValueError('--retry-errors requires --resume')
         from .inference import run
         result=run(read_jsonl(args.inputs),read_jsonl(args.asr),read_jsonl(args.sources),args)

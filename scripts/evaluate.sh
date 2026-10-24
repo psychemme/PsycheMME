@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
+[[ $# -eq 0 ]] || { echo "Usage: bash scripts/evaluate.sh" >&2; exit 2; }
 cd "$(dirname "$0")/.."
 OVERRIDES=()
-for name in MODEL_BASE_URL MODEL_ID MODEL_API_KEY JUDGE_BASE_URL JUDGE_MODEL JUDGE_API_KEY DATA_DIR RUN_DIR LIMIT RETRY_ERRORS; do
+for name in MODEL_BASE_URL MODEL_ID MODEL_API_KEY JUDGE_BASE_URL JUDGE_MODEL JUDGE_API_KEY DATA_DIR RUN_DIR RETRY_ERRORS; do
   if [[ "${!name+x}" == x ]]; then OVERRIDES+=("$name=${!name}"); fi
 done
 if [[ -f .env ]]; then
@@ -17,20 +18,11 @@ done
 : "${JUDGE_MODEL:?Set JUDGE_MODEL in .env}"
 DATA_DIR="${DATA_DIR:-data/PsycheMME}"
 RUN_DIR="${RUN_DIR:-runs/my-model}"
-LIMIT="${1:-${LIMIT:-0}}"
-[[ "$LIMIT" =~ ^[0-9]+$ ]] || { echo 'Use a nonnegative sample size.' >&2; exit 2; }
 command -v ffmpeg >/dev/null || { echo 'Install FFmpeg before evaluation.' >&2; exit 2; }
 mkdir -p "$RUN_DIR"
-if (( LIMIT > 0 )); then
-  psychemme download --bundle benchmark --metadata-only --output "$DATA_DIR"
-  psychemme prepare --root "$DATA_DIR" --output "$RUN_DIR/inputs" --limit "$LIMIT"
-  INPUTS="$RUN_DIR/inputs/inputs.jsonl"; REFERENCES="$RUN_DIR/inputs/references.jsonl"
-  ASR="$RUN_DIR/inputs/asr.jsonl"; SOURCES="$RUN_DIR/inputs/sources.jsonl"
-else
-  psychemme download --bundle benchmark --output "$DATA_DIR"
-  INPUTS="$DATA_DIR/benchmark/public/test.jsonl"; REFERENCES="$DATA_DIR/benchmark/ground_truth.jsonl"
-  ASR="$DATA_DIR/benchmark/asr.jsonl"; SOURCES="$DATA_DIR/metadata/media.jsonl"
-fi
+psychemme download --bundle benchmark --output "$DATA_DIR"
+INPUTS="$DATA_DIR/benchmark/public/test.jsonl"; REFERENCES="$DATA_DIR/benchmark/ground_truth.jsonl"
+ASR="$DATA_DIR/benchmark/asr.jsonl"; SOURCES="$DATA_DIR/metadata/media.jsonl"
 RETRY_ARGS=(--retries 2)
 if [[ "${RETRY_ERRORS:-0}" == 1 ]]; then RETRY_ARGS+=(--retry-errors); fi
 psychemme infer --backend api --resume "${RETRY_ARGS[@]}" \

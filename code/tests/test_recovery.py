@@ -10,14 +10,13 @@ from unittest.mock import patch
 from psychemme_eval import inference, cli
 from psychemme_eval.data import read_jsonl, dump_jsonl
 from psychemme_eval.onboarding import demo
-from psychemme_eval.subset import prepare
 from psychemme_eval.checkpoint import run_lock
 
 class Recovery(unittest.TestCase):
     def setup_run(self, root):
         demo(root/'fixture')
         public=read_jsonl(root/'fixture/inputs.jsonl')[:2]
-        args=argparse.Namespace(output=str(root/'predictions.jsonl'), limit=0, backend='api', model='test-model',
+        args=argparse.Namespace(output=str(root/'predictions.jsonl'),  backend='api', model='test-model',
             base_url='http://local/v1', revision=None, adapter=None, adapter_revision=None,
             media_root=str(root),frame_cache=str(root/'frames'),api_key_env='',timeout=1,resume=True,retries=2,retry_errors=False)
         answer=json.dumps({'answer':'A','G':'A visible cue.', **{k:None for k in 'WNTSAMR'}})
@@ -73,31 +72,10 @@ class Recovery(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'another process'):
                     with run_lock(Path(directory)/'output'):pass
 
-    def test_sample_closure_and_download_only_selected_videos(self):
-        with tempfile.TemporaryDirectory() as directory:
-            root=Path(directory);demo(root/'fixture')
-            public=read_jsonl(root/'fixture/inputs.jsonl');truth=read_jsonl(root/'fixture/references_EVALUATOR_ONLY.jsonl')
-            for i,(item,ref) in enumerate(zip(public,truth)):
-                item['episode_id']=ref['episode_id']=f'episode-{i}'
-                item['media_id']=ref['media_id']=f'video/{i}.mp4'
-            dump_jsonl(root/'data/benchmark/public/test.jsonl',public)
-            dump_jsonl(root/'data/benchmark/ground_truth.jsonl',truth)
-            for filename in ('benchmark/asr.jsonl','metadata/media.jsonl'):
-                dump_jsonl(root/'data'/filename,[{'episode_id':x['episode_id']} for x in public])
-            downloads=[]
-            prepare(root/'data',root/'sample',8,fetcher=lambda **kw:downloads.append(kw['filename']))
-            q=read_jsonl(root/'sample/inputs.jsonl');refs=read_jsonl(root/'sample/references.jsonl')
-            self.assertEqual({x['category'] for x in q},set('GWNTSAMR'))
-            self.assertEqual({x['question_id'] for x in q},{x['question_id'] for x in refs})
-            self.assertEqual(len(downloads),8)
-            with self.assertRaisesRegex(ValueError,'settings or inputs changed'):
-                prepare(root/'data',root/'sample',2,fetcher=lambda **kw:None)
-            self.assertEqual(len(read_jsonl(root/'sample/inputs.jsonl')),8)
-
     def test_incomplete_infer_exits_nonzero(self):
         with patch.object(cli,'read_jsonl',return_value=[]),patch.object(inference,'run',return_value={'status':'INCOMPLETE'}),contextlib.redirect_stdout(io.StringIO()):
             with self.assertRaises(SystemExit) as error:
-                cli.execute(argparse.Namespace(command='infer',limit=0,retries=2,retry_errors=False,resume=True,inputs='x',asr='x',sources='x'))
+                cli.execute(argparse.Namespace(command='infer',retries=2,retry_errors=False,resume=True,inputs='x',asr='x',sources='x'))
             self.assertEqual(error.exception.code,1)
 
     def test_judge_interruption_resumes_persisted_rows(self):

@@ -91,7 +91,7 @@ def _run(public, asr_rows, source_rows, args):
     asr = unique_index(asr_rows, 'episode_id')
     locators = unique_index(source_rows, 'episode_id')
     output = Path(args.output)
-    selected = public[:args.limit] if args.limit else public
+    selected = public
     if not selected:
         raise ValueError('Empty evaluation population')
     settings = {

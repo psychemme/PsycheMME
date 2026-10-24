@@ -13,7 +13,7 @@
 | Missing replay data | Provide the four local files listed in [Reproducibility](REPRODUCIBILITY.md), then set `--root` to their parent directory. |
 | Missing/mismatched video | Rerun the benchmark download and use `metadata/media.jsonl` with `--media-root data/PsycheMME/benchmark/media`. |
 | Imported responses are invalid | Check nine keys, an informative rationale, answer type and `finish_reason`. Inspect `parse_reason`. |
-| Judge population differs | Public inputs, references and predictions need matching IDs. Import to materialize missing predictions. Select matching public/reference subsets for smoke runs. |
+| Judge population differs | Public inputs, references and predictions need matching IDs. Import to materialize missing predictions. |
 | Unexpected score | Inspect inference/Judge failures and invalid formats. They remain in the denominator; Verified additionally applies fixed normalized rationale weights. |
 | Macro is `null` | The declared population lacks one or more capabilities. Do not relabel the exploratory mean as the official eight-capability macro. |
 | GPU out of memory | Check available memory and use the documented runtime. Changing frame count, resizing or clip duration changes the input protocol. Demo and Replay can run on CPU. |
