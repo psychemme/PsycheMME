@@ -4,7 +4,7 @@
     "benchmark": {
       "repo": "psychemme/PsycheMME",
       "type": "dataset",
-      "revision": "v1.0.2",
+      "revision": "221c66006844f31186b7cd32e828028601c03e90",
       "status": "published",
       "directory": "PsycheMME"
     },
