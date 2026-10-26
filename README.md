@@ -42,7 +42,8 @@ PsycheMME evaluates social understanding and interaction through **1,000 questio
 
 # 📣 Update
 
-- The benchmark, evaluation tools and model adapters are available.
+- **Current version (`main`):** the benchmark, evaluation tools, training data and model adapters. The current benchmark rewords 32 multiple-select questions; answers and options are unchanged.
+- **Paper version (`v1.0-paper`):** the frozen benchmark, code, training data, adapters and evaluation records for reproducing the paper. Use this version to compare with the paper tables.
 
 # 🛠️ Installation
 
