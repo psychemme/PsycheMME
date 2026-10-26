@@ -34,4 +34,4 @@ def download_resource(name, output, metadata_only=False, downloader=None):
     path = downloader(**kwargs)
     return {'status': 'PASS', 'resource': name, 'repo': resource['repo'],
             'revision': resource['revision'], 'directory': str(path),
-            'media_included': name == 'benchmark' and not metadata_only}
+            'media_included': name in {'benchmark', 'training'} and not metadata_only}

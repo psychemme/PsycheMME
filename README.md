@@ -38,6 +38,7 @@ PsycheMME evaluates social understanding and interaction through **1,000 questio
 | [SFT adapter](https://huggingface.co/psychemme/PsycheMME-Qwen3.5-4B-SFT) | Qwen3.5-4B LoRA adapter |
 | [GRPO adapter](https://huggingface.co/psychemme/PsycheMME-Qwen3.5-4B-GRPO) | Qwen3.5-4B LoRA adapter |
 | [Evaluation records](https://huggingface.co/datasets/psychemme/PsycheMME-logs) | Question-level scores and paper tables |
+| [Training data](https://huggingface.co/datasets/psychemme/PsycheMME-Training) | SFT examples, GRPO pool, videos, frames, evidence and training settings |
 
 # 📣 Update
 
@@ -112,7 +113,12 @@ Use the GRPO repository ID to run the GRPO adapter, or omit adapter arguments to
 
 ## Training and construction
 
-SFT and GRPO adapters are available above. Training data, training recipes and the construction pipeline will be released separately.
+SFT and GRPO adapters are available above. [Training data and settings](https://huggingface.co/datasets/psychemme/PsycheMME-Training) include the video clips, original training frames, evidence and source mappings. Training scripts and the construction pipeline will be released separately.
+
+```bash
+python scripts/sync_resources.py training
+python data/PsycheMME-Training/scripts/prepare.py
+```
 
 <details><summary><b>Repository layout</b></summary>
 

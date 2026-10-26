@@ -60,9 +60,23 @@ class FirstRun(unittest.TestCase):
             self.assertEqual(doctor()['status'], 'PASS')
             self.assertEqual(doctor(mode='local')['status'], 'FAIL')
 
+    def test_training_download_includes_media_and_uses_registered_revision(self):
+        from psychemme_eval.resources import catalog, download_resource
+        calls = []
+        def fetch(**kwargs):
+            calls.append(kwargs)
+            return kwargs['local_dir']
+        with tempfile.TemporaryDirectory() as directory:
+            result = download_resource('training', directory, downloader=fetch)
+        self.assertEqual(calls[0]['repo_id'], 'psychemme/PsycheMME-Training')
+        self.assertEqual(calls[0]['revision'], catalog()['resources']['training']['revision'])
+        self.assertNotIn('ignore_patterns', calls[0])
+        self.assertTrue(result['media_included'])
+
     def test_planned_resource_never_calls_download(self):
         from psychemme_eval.resources import download_resource
-        with patch('builtins.print') as unused:
+        planned = {'resources': {'example': {'status': 'planned', 'revision': None}}}
+        with patch('psychemme_eval.resources.catalog', return_value=planned):
             with self.assertRaisesRegex(ValueError, 'planned'):
-                download_resource('training', 'unused', downloader=lambda **kw: self.fail('network called'))
+                download_resource('example', 'unused', downloader=lambda **kw: self.fail('network called'))
         self.assertFalse(Path('unused').exists())

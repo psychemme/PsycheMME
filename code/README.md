@@ -10,4 +10,4 @@ Install from the repository root with `python -m pip install .`, or install this
 - `tests/`: evaluation and transport tests.
 - `reference_core/`: supporting paper implementation.
 
-Start with the [Quick Start](../docs/QUICKSTART.md) or [Video Inference](../docs/VIDEO.md). Benchmark data and paper scoring records are published separately on Hugging Face; SFT and GRPO adapters are available on [Hugging Face](https://huggingface.co/psychemme/models). Training and data-construction recipes are planned.
+Start with the [Quick Start](../docs/QUICKSTART.md) or [Video Inference](../docs/VIDEO.md). Benchmark data and paper scoring records are published separately on Hugging Face; SFT and GRPO adapters are available on [Hugging Face](https://huggingface.co/psychemme/models). [Training data and settings](https://huggingface.co/datasets/psychemme/PsycheMME-Training) are available. Training scripts and construction recipes will be released separately.

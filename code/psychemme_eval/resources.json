@@ -4,7 +4,7 @@
     "benchmark": {
       "repo": "psychemme/PsycheMME",
       "type": "dataset",
-      "revision": "41c7e08f5e82b5b189875479838207836319aad2",
+      "revision": "f35f3c8abab494a11d7a883e9e5e9bc7c693de0c",
       "status": "published",
       "directory": "PsycheMME"
     },
@@ -18,8 +18,8 @@
     "training": {
       "repo": "psychemme/PsycheMME-Training",
       "type": "dataset",
-      "revision": null,
-      "status": "planned",
+      "revision": "ef0c34a7d4181d42d2ef11cf0e1e1c836c8a2fe6",
+      "status": "published",
       "directory": "PsycheMME-Training"
     },
     "sft": {

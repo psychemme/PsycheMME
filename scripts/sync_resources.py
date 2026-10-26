@@ -13,7 +13,7 @@ from psychemme_eval.resources import catalog, download_resource
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('resources', nargs='*', default=['benchmark'],
-                        help='benchmark, logs, sft or grpo (default: benchmark)')
+                        help='benchmark, logs, training, sft or grpo (default: benchmark)')
     parser.add_argument('--output', type=Path, default=Path('data'))
     parser.add_argument('--metadata-only', action='store_true', help='Skip benchmark videos (about 27.6 GB)')
     parser.add_argument('--website', type=Path, help='Sync resource links into a local project website')
