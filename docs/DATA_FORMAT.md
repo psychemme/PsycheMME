@@ -41,10 +41,12 @@ Single-choice answers use a letter string. Multiple-select uses an exact set of 
 
 ## Memory context
 
-`memory_context` is the public history supplied to the model. The loader passes this text unchanged to the prompt and to the reference-memory Judge context. It is present in 40 Memory questions; the paper's explicit-history ablation uses those 40 items. Video and ASR remain part of the input when this field is null.
+`memory_context` is the public history supplied to the model. The loader passes this text unchanged to the prompt and to the reference-memory Judge context. It is present in 40 Memory questions; the paper's explicit-history ablation uses those 40 items.
 
+`memory_dependency` describes annotated dependence on history for evaluation and is present in 54 Memory questions. Model-facing history is supplied through `memory_context`.
 
-`memory_dependency` describes annotated dependence on history for evaluation. Model-facing history is supplied through `memory_context`.
+Both fields are optional and usually `null`. A null value means that no separate history or dependency annotation is attached to that question; video and ASR remain part of its input.
+
 
 ## Evidence and time
 

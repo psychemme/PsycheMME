@@ -48,6 +48,8 @@ PsycheMME evaluates social understanding and interaction through **1,000 questio
 
 Use **Python 3.11** and install [FFmpeg](https://ffmpeg.org/download.html) for video processing (`brew install ffmpeg` on macOS; `sudo apt-get install ffmpeg` on Ubuntu).
 
+For video preparation, first apply for [Ego4D access](https://ego4d-data.org/docs/start-here/). Approval may take time; request access before starting the video download.
+
 ```bash
 git clone https://github.com/psychemme/PsycheMME.git
 cd PsycheMME
@@ -92,9 +94,11 @@ bash scripts/download.sh
 
 Includes 1,000 questions and references, 630 videos, ASR and source mappings. Apply for [Ego4D access](https://ego4d-data.org/docs/start-here/) and fill the supplied AWS credentials in `.env`. The script fetches only 76 required Ego4D source videos from the official service, prepares 142 clips, and downloads the other seven video sources from Hugging Face. See [Download Guide](docs/DOWNLOAD.md) for setup, storage and reuse. Add `--metadata-only` for annotations only.
 
+Allow approximately **76 GB** for the Ego4D source cache (48.3 GB) and prepared benchmark media (27.6 GB), plus temporary files and frame caches. Configure the supplied key pair in your local `.env`. The script passes it only to the official Ego4D downloader through a temporary local AWS profile, which is deleted after use. PsycheMME does not log the keys or upload them to GitHub or Hugging Face.
+
 ```python
 from datasets import load_dataset
-questions = load_dataset("psychemme/PsycheMME", "questions", split="test")
+questions = load_dataset("psychemme/PsycheMME", "questions", revision="v1.0.2", split="test")
 ```
 
 Install `datasets` separately for this Python example. References are provided in `benchmark/ground_truth.jsonl` for judging and scoring; model inference uses public questions, supplied context, ASR and video.
