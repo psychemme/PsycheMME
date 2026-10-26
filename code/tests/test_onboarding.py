@@ -50,7 +50,7 @@ class FirstRun(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             download(directory, 'replay', downloader=fetch)
             self.assertEqual(calls[-1]['repo_id'], 'psychemme/PsycheMME-logs')
-            self.assertEqual(calls[-1]['revision'], 'v1.0-paper.1')
+            self.assertEqual(calls[-1]['revision'], 'v1.0-paper')
             download(directory, metadata_only=True, downloader=fetch)
             self.assertEqual(calls[-1]['repo_id'], 'psychemme/PsycheMME')
             self.assertEqual(calls[-1]['ignore_patterns'], ['benchmark/media/**'])

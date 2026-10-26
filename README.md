@@ -181,7 +181,7 @@ With FFmpeg and the local-model dependencies installed, ask a question about a v
 psychemme video --video /path/to/clip.mp4 \
   --question "What happens in this video?" \
   --adapter psychemme/PsycheMME-Qwen3.5-4B-SFT \
-  --adapter-revision v1.0-paper.1 \
+  --adapter-revision v1.0-paper \
   --output runs/video.json
 ```
 

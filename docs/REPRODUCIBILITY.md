@@ -43,7 +43,7 @@ Follow [Video Inference](VIDEO.md) for a single video and [Model Integration](MO
 | :--- | :--- |
 | Base | `Qwen/Qwen3.5-4B` |
 | Base revision | `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a` |
-| Adapters | [SFT](https://huggingface.co/psychemme/PsycheMME-Qwen3.5-4B-SFT) or [GRPO](https://huggingface.co/psychemme/PsycheMME-Qwen3.5-4B-GRPO), revision `v1.0-paper.1` |
+| Adapters | [SFT](https://huggingface.co/psychemme/PsycheMME-Qwen3.5-4B-SFT) or [GRPO](https://huggingface.co/psychemme/PsycheMME-Qwen3.5-4B-GRPO), revision `v1.0-paper` |
 | Frames | Full-timeline 1 fps, uniform cap64; no additional resizing |
 | Precision / attention | BF16 / SDPA |
 | Generation | Greedy, seed42, max768 new tokens; thinking disabled |

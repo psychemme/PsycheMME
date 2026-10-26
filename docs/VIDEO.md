@@ -26,7 +26,7 @@ curl --fail --location \
 psychemme video --video examples/video.mp4 \
   --question "Summarize the video content." \
   --adapter psychemme/PsycheMME-Qwen3.5-4B-SFT \
-  --adapter-revision v1.0-paper.1 \
+  --adapter-revision v1.0-paper \
   --output runs/video.json
 ```
 
