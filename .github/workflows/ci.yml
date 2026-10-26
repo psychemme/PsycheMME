@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
-      - run: python -m pip install .
+      - run: python -m pip install '.[data]'
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: python scripts/sync_resources.py --check
       - run: psychemme doctor

@@ -15,7 +15,7 @@ cp .env.example .env
 
 ## Configure
 
-Fill in the model and text Judge URLs, served model IDs and API keys in `.env`. The model endpoint accepts chat-completions requests containing images and text. Keys can be empty for your own unauthenticated local endpoints.
+Fill in the model and text Judge URLs, served model IDs and API keys in `.env`. The model endpoint accepts chat-completions requests containing images and text. Keys can be empty for your own unauthenticated local endpoints. For videos, apply for [Ego4D access](https://ego4d-data.org/docs/start-here/) and fill `EGO4D_ACCESS_KEY_ID` and `EGO4D_SECRET_ACCESS_KEY` in `.env`. See [Download Guide](DOWNLOAD.md) for an existing AWS profile or local source cache.
 
 ## Evaluate
 
@@ -25,7 +25,7 @@ Run all 1,000 questions over 630 video episodes:
 bash scripts/evaluate.sh
 ```
 
-The first run downloads about 27.6 GB of videos and the benchmark annotations. Install FFmpeg and allow additional space for sampled frames. API requests use your configured model and Judge services.
+The first run prepares the 27.6 GB benchmark media tree and caches only the 76 required Ego4D originals (about 48.3 GB). The other seven video sources come from Hugging Face. Install FFmpeg and allow additional space for sampled frames. API requests use your configured model and Judge services.
 
 Results are saved in `runs/my-model/` (or your configured `RUN_DIR`):
 

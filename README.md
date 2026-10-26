@@ -65,6 +65,7 @@ Configure an image-capable chat-completions endpoint and a text Judge in `.env`:
 cp .env.example .env
 # Fill in MODEL_BASE_URL, MODEL_ID, MODEL_API_KEY,
 # JUDGE_BASE_URL, JUDGE_MODEL and JUDGE_API_KEY.
+# Add your official Ego4D AWS credentials for the video download.
 bash scripts/evaluate.sh
 ```
 
@@ -85,10 +86,10 @@ Repeat the same command to continue an interrupted run. Completed records are re
 ## Getting data
 
 ```bash
-python scripts/sync_resources.py benchmark
+bash scripts/download.sh
 ```
 
-Includes 1,000 questions and references, 630 videos (about 27.6 GB), ASR transcripts and source mappings. Downloads resume automatically. Add `--metadata-only` to download annotations first.
+Includes 1,000 questions and references, 630 videos, ASR and source mappings. Apply for [Ego4D access](https://ego4d-data.org/docs/start-here/) and fill the supplied AWS credentials in `.env`. The script fetches only 76 required Ego4D source videos from the official service, prepares 142 clips, and downloads the other seven video sources from Hugging Face. See [Download Guide](docs/DOWNLOAD.md) for setup, storage and reuse. Add `--metadata-only` for annotations only.
 
 ```python
 from datasets import load_dataset

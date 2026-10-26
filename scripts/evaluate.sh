@@ -3,7 +3,7 @@ set -euo pipefail
 [[ $# -eq 0 ]] || { echo "Usage: bash scripts/evaluate.sh" >&2; exit 2; }
 cd "$(dirname "$0")/.."
 OVERRIDES=()
-for name in MODEL_BASE_URL MODEL_ID MODEL_API_KEY JUDGE_BASE_URL JUDGE_MODEL JUDGE_API_KEY DATA_DIR RUN_DIR RETRY_ERRORS; do
+for name in MODEL_BASE_URL MODEL_ID MODEL_API_KEY JUDGE_BASE_URL JUDGE_MODEL JUDGE_API_KEY DATA_DIR RUN_DIR RETRY_ERRORS EGO4D_ACCESS_KEY_ID EGO4D_SECRET_ACCESS_KEY EGO4D_SESSION_TOKEN EGO4D_PROFILE EGO4D_SOURCE_DIR; do
   if [[ "${!name+x}" == x ]]; then OVERRIDES+=("$name=${!name}"); fi
 done
 if [[ -f .env ]]; then
@@ -22,7 +22,7 @@ command -v ffmpeg >/dev/null || { echo 'Install FFmpeg before evaluation.' >&2; 
 mkdir -p "$RUN_DIR"
 psychemme download --bundle benchmark --output "$DATA_DIR"
 INPUTS="$DATA_DIR/benchmark/public/test.jsonl"; REFERENCES="$DATA_DIR/benchmark/ground_truth.jsonl"
-ASR="$DATA_DIR/benchmark/asr.jsonl"; SOURCES="$DATA_DIR/metadata/media.jsonl"
+ASR="$DATA_DIR/benchmark/asr.jsonl"; SOURCES="$DATA_DIR/metadata/media.local.jsonl"
 RETRY_ARGS=(--retries 2)
 if [[ "${RETRY_ERRORS:-0}" == 1 ]]; then RETRY_ARGS+=(--retry-errors); fi
 psychemme infer --backend api --resume "${RETRY_ARGS[@]}" \

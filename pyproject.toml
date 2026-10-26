@@ -12,7 +12,7 @@ license = {file = "code/LICENSE"}
 dependencies = []
 
 [project.optional-dependencies]
-data = ["huggingface-hub==1.33.0"]
+data = ["huggingface-hub==1.33.0", "ego4d==1.7.3"]
 local-model = ["torch==2.11.0", "transformers==5.15.1", "peft==0.19.1", "qwen-vl-utils==0.0.14", "accelerate", "Pillow"]
 
 [project.scripts]

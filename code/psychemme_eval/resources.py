@@ -23,6 +23,9 @@ def download_resource(name, output, metadata_only=False, downloader=None):
         except ImportError as exc:
             raise ValueError('Install download support: python -m pip install ".[data]"') from exc
         downloader = snapshot_download
+    if name == 'benchmark' and not metadata_only:
+        from .ego4d import download_benchmark
+        return download_benchmark(output, resource, downloader)
     kwargs = dict(repo_id=resource['repo'], repo_type=resource['type'],
                   revision=resource['revision'], local_dir=str(output))
     if metadata_only:

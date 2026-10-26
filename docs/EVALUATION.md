@@ -20,7 +20,7 @@ Capability means include all declared question IDs and failure records. The head
 
 ## Commands
 
-Follow the [installation instructions](../README.md#-installation). Download the benchmark with `python scripts/sync_resources.py benchmark`; the commands below use the [released layout](DATA_FORMAT.md).
+Follow the [installation instructions](../README.md#-installation). Download the benchmark with `bash scripts/download.sh`; the commands below use the [released layout](DATA_FORMAT.md).
 
 ```sh
 psychemme validate --inputs data/PsycheMME/benchmark/public/test.jsonl \

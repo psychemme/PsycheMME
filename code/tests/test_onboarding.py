@@ -54,8 +54,6 @@ class FirstRun(unittest.TestCase):
             download(directory, metadata_only=True, downloader=fetch)
             self.assertEqual(calls[-1]['repo_id'], 'psychemme/PsycheMME')
             self.assertEqual(calls[-1]['ignore_patterns'], ['benchmark/media/**'])
-            download(directory, downloader=fetch)
-            self.assertNotIn('ignore_patterns', calls[-1])
 
     def test_optional_model_packages_do_not_fail_core_doctor(self):
         with patch('importlib.metadata.version', side_effect=__import__('importlib.metadata', fromlist=['PackageNotFoundError']).PackageNotFoundError):

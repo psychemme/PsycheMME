@@ -16,6 +16,8 @@ All JSONL files contain one JSON object per line.
 | `metadata/episodes.jsonl` | Episode/source mapping and question count. |
 | `metadata/sources.csv` | Original source links, identifiers and crop intervals. |
 
+The [download script](DOWNLOAD.md) prepares Ego4D from official originals and writes `metadata/media.local.jsonl` for the local media bindings used by evaluation.
+
 `media_id` is relative to `benchmark/media/`. The model reads questions, ASR and media; references are supplied only to judging/scoring. Questions, reference answers and ASR retain the paper final-1000 content.
 
 ## Paper records: `psychemme/PsycheMME-logs`

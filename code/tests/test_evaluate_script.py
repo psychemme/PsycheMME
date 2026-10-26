@@ -30,6 +30,7 @@ class EvaluateScript(unittest.TestCase):
             self.assertEqual([x[0] for x in calls],['download','infer','judge','score'])
             self.assertNotIn('--metadata-only',calls[0])
             self.assertIn('benchmark',calls[0])
+            self.assertTrue(calls[1][calls[1].index('--sources')+1].endswith('/metadata/media.local.jsonl'))
             for row in calls[1:3]:
                 self.assertIn('--resume',row);self.assertIn('--retry-errors',row)
             self.assertEqual(calls[1][calls[1].index('--model')+1],'from-shell')
@@ -43,3 +44,23 @@ class EvaluateScript(unittest.TestCase):
             self.assertEqual(result.returncode,2)
             self.assertIn('Usage:',result.stderr)
             self.assertFalse((root/'calls.jsonl').exists())
+
+    def test_download_script_loads_official_credentials_and_preserves_shell_overrides(self):
+        source=Path(__file__).resolve().parents[2]/'scripts/download.sh'
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'scripts').mkdir();(root/'bin').mkdir()
+            (root/'scripts/download.sh').write_text(source.read_text())
+            (root/'.env').write_text('EGO4D_ACCESS_KEY_ID=example-id\nEGO4D_SECRET_ACCESS_KEY=example-secret\nEGO4D_PROFILE=from-file\n')
+            command=root/'bin/psychemme'
+            command.write_text('#!'+sys.executable+'\nimport json,os,sys\nfrom unittest.mock import patch\nfrom psychemme_eval import cli\nwith patch.object(cli,"execute",return_value=None):cli.main()\nassert os.environ["EGO4D_ACCESS_KEY_ID"]=="example-id"\nassert os.environ["EGO4D_SECRET_ACCESS_KEY"]=="example-secret"\nassert os.environ["EGO4D_PROFILE"]=="from-shell"\nwith open(os.environ["CALL_LOG"],"w") as f:json.dump(sys.argv[1:],f)\n')
+            command.chmod(0o755)
+            env={**os.environ,'PATH':str(root/'bin')+os.pathsep+os.environ['PATH'],
+                 'EGO4D_PROFILE':'from-shell','DATA_DIR':str(root/'benchmark'),
+                 'CALL_LOG':str(root/'calls.json')}
+            result=subprocess.run(['bash',str(root/'scripts/download.sh'),'--metadata-only'],env=env,capture_output=True,text=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            args=json.loads((root/'calls.json').read_text())
+            self.assertEqual(args[:3],['download','--bundle','benchmark'])
+            self.assertIn('--metadata-only',args)
+            self.assertEqual(args[args.index('--output')+1],str(root/'benchmark'))
+            self.assertNotIn('example-secret',result.stdout+result.stderr)

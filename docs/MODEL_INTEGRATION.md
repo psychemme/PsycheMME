@@ -1,10 +1,10 @@
 # Evaluate your model
 
-Install the package using [Quick Start](QUICKSTART.md). Download the benchmark with `python scripts/sync_resources.py benchmark` using the [documented layout](DATA_FORMAT.md). Use matching question populations for inference, judging and scoring.
+Install the package using [Quick Start](QUICKSTART.md). Download the benchmark with `bash scripts/download.sh` using the [documented layout](DATA_FORMAT.md). Use matching question populations for inference, judging and scoring.
 
 ## Quick evaluation
 
-Configure your model and Judge endpoints, then run the complete evaluation:
+Configure your model and Judge endpoints and the [Ego4D credentials](DOWNLOAD.md), then run the complete evaluation:
 
 ```bash
 cp .env.example .env
@@ -23,7 +23,7 @@ Install [FFmpeg](https://ffmpeg.org/download.html) and provide your matching vid
 psychemme infer --backend api \
   --inputs data/PsycheMME/benchmark/public/test.jsonl \
   --asr data/PsycheMME/benchmark/asr.jsonl \
-  --sources data/PsycheMME/metadata/media.jsonl \
+  --sources data/PsycheMME/metadata/media.local.jsonl \
   --media-root data/PsycheMME/benchmark/media --frame-cache runs/frames \
   --base-url https://YOUR_ENDPOINT/v1 --api-key-env MODEL_API_KEY \
   --model YOUR_SERVED_MODEL_ID --output runs/my-model/predictions.jsonl
